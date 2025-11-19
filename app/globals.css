@@ -1,1 +1,50 @@
 @import "tailwindcss";
+/* CAMADA BASE — sempre visível, parada */
+.base-line {
+  fill: none;
+  stroke: #ffffff33; /* branco bem opaco */
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* CAMADA ANIMADA — fica por cima */
+.draw-neon-loop {
+  fill: none;
+  stroke: #ff003c;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  stroke-dasharray: 400; /* tamanho maior por ser um polígono grande */
+  stroke-dashoffset: 400;
+
+  animation: draw 2.2s ease forwards, draw2 2.2s ease forwards,
+    fadeOut 1s linear 4.2s forwards;
+
+  animation-iteration-count: infinite;
+}
+
+/* -- 1. Linha “sendo desenhada” -- */
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+    stroke: #ff003c;
+  }
+}
+@keyframes draw2 {
+  to {
+    stroke-dashoffset: 0;
+    stroke: white;
+  }
+}
+
+/* -- 3. Some para reiniciar o loop -- */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
