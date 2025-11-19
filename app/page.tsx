@@ -1,7 +1,5 @@
-// Função que simula carregamento lento
 async function getHomeData() {
-  // Espera 3 segundos antes de continuar
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 3500));
 
   return {
     title: "Bem-vindo",
@@ -10,7 +8,6 @@ async function getHomeData() {
 }
 
 export default async function Home() {
-  // Aguarda os dados (e o delay de 3 segundos)
   const data = await getHomeData();
 
   return (
