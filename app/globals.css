@@ -1126,10 +1126,18 @@ a {
   transition: color 180ms ease;
 }
 
-.legend-item:is(:hover, :focus-visible, .is-hovered, .is-active) {
+.legend-item:is(:focus-visible, .is-hovered, .is-active) {
   color: rgba(255, 255, 255, 0.42);
   outline: none;
   transform: translateX(8px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .legend-item:hover {
+    color: rgba(255, 255, 255, 0.42);
+    outline: none;
+    transform: translateX(8px);
+  }
 }
 
 .legend-item:focus-visible {
@@ -1976,15 +1984,8 @@ a {
     --legend-fade-top-start: 60px;
     --legend-fade-top-end: 96px;
     --legend-fade-bottom-size: 80px;
-    --legend-active-anchor: clamp(136px, 20svh, 172px);
     --legend-item-height: 68px;
-    --legend-end-gutter: max(
-      96px,
-      calc(
-        100svh - var(--legend-active-anchor) - 34px +
-          env(safe-area-inset-bottom)
-      )
-    );
+    --legend-end-gutter: calc(80px + env(safe-area-inset-bottom));
     position: fixed;
     inset: 0;
     width: 100%;
@@ -2006,7 +2007,6 @@ a {
     overflow-anchor: none;
     overscroll-behavior-x: none;
     scrollbar-width: none;
-    scroll-padding-top: var(--legend-active-anchor);
     touch-action: pan-y;
     mask-image: linear-gradient(
       to bottom,

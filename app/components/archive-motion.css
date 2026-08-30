@@ -407,20 +407,22 @@
 }
 .archive-motion__telemetry {
   position: absolute;
-  right: 3vw;
-  bottom: 78px;
+  right: 4vw;
+  bottom: 12%;
   z-index: 7;
   display: grid;
   justify-items: end;
-  gap: 6px;
+  gap: 5px;
+  padding-right: 12px;
+  border-right: 2px solid rgb(var(--motion-primary));
   color: rgb(var(--motion-primary) / 0.86);
   font-family: "Arial Narrow", Arial, sans-serif;
-  font-size: 10px;
+  font-size: clamp(0.6875rem, 0.64rem + 0.14vw, 0.8125rem);
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   opacity: 0;
-  transform: translateX(18px);
+  transform: translateX(14px);
 }
 .archive-motion__telemetry span:last-child {
   color: rgb(var(--motion-secondary) / 0.74);
@@ -451,7 +453,7 @@
     archive-reticle-idle 6s 1.2s ease-in-out infinite alternate;
 }
 .legend-media__layer.is-active .archive-motion__telemetry {
-  animation: archive-telemetry-enter 620ms 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: archive-telemetry-enter 700ms 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .archive-motion--ballistic .archive-motion__reticle {
   top: 28%;

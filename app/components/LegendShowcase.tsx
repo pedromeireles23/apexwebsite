@@ -339,9 +339,6 @@ const MOBILE_SHOWCASE_QUERY = "(max-width: 767px)";
 const usesMobileShowcaseScroller = () =>
   window.matchMedia(MOBILE_SHOWCASE_QUERY).matches;
 
-const getMobileActiveAnchor = () =>
-  Math.min(172, Math.max(136, window.innerHeight * 0.2));
-
 const getItemCenterWithinShowcase = (
   item: HTMLElement,
   showcase: HTMLElement
@@ -400,21 +397,6 @@ const getLegendScrollPosition = (
   const lastItem = items[items.length - 1];
 
   if (!firstItem || !targetItem || !lastItem) return null;
-
-  if (usesMobileShowcaseScroller() && scrollSurface) {
-    const surfaceRect = scrollSurface.getBoundingClientRect();
-    const targetRect = targetItem.getBoundingClientRect();
-    const targetCenter = targetRect.top + targetRect.height / 2;
-    const targetScroll =
-      scrollSurface.scrollTop +
-      targetCenter -
-      (surfaceRect.top + getMobileActiveAnchor());
-
-    return Math.min(
-      Math.max(0, targetScroll),
-      Math.max(0, scrollSurface.scrollHeight - scrollSurface.clientHeight)
-    );
-  }
 
   const firstCenter = getItemCenterWithinShowcase(firstItem, showcase);
   const targetCenter = getItemCenterWithinShowcase(targetItem, showcase);
@@ -802,21 +784,6 @@ export default function LegendShowcase() {
 
         if (!firstItem || !lastItem) return;
 
-        if (isMobileScroller && scrollSurface) {
-          const surfaceTop = scrollSurface.getBoundingClientRect().top;
-          const itemCenters = rects.map((rect) =>
-            rect ? rect.top + rect.height / 2 : null
-          );
-
-          commitScrollIndex(
-            findNearestIndex(
-              itemCenters,
-              surfaceTop + getMobileActiveAnchor()
-            )
-          );
-          return;
-        }
-
         const itemCenters = itemRefs.current.map((item) =>
           item ? getItemCenterWithinShowcase(item, showcase) : null
         );
@@ -1079,6 +1046,9 @@ export default function LegendShowcase() {
       type="button"
       aria-pressed={index === activeIndex}
       tabIndex={index === activeIndex ? 0 : -1}
+      onPointerDown={(event) => {
+        if (event.pointerType !== "mouse") setHoverIndex(null);
+      }}
       onPointerMove={(event) => {
         if (event.pointerType === "mouse" && !isScrollingRef.current) {
           preloadLegendDetail();
@@ -1090,9 +1060,11 @@ export default function LegendShowcase() {
       onPointerLeave={(event) => {
         if (event.pointerType === "mouse") setHoverIndex(null);
       }}
-      onFocus={() => {
+      onFocus={(event) => {
         preloadLegendDetail();
-        setHoverIndex(index);
+        if (event.currentTarget.matches(":focus-visible")) {
+          setHoverIndex(index);
+        }
       }}
       onBlur={() => setHoverIndex(null)}
       onKeyDown={(event) => {

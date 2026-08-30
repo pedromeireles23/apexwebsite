@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
+import { Oswald, Roboto } from "next/font/google";
 import SitePreloader from "./components/SitePreloader";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./lib/site";
 import "./globals.css";
+
+const legendDisplayFont = Oswald({
+  subsets: ["latin"],
+  variable: "--font-legend-display",
+  display: "swap",
+});
+
+const legendBodyFont = Roboto({
+  subsets: ["latin"],
+  variable: "--font-legend-body",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: SITE_URL,
@@ -60,7 +73,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>
+      <body className={`${legendDisplayFont.variable} ${legendBodyFont.variable}`}>
         <SitePreloader />
         <div className="site-reveal" inert aria-hidden="true">
           {children}

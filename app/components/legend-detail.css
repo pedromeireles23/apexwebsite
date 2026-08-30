@@ -761,7 +761,14 @@
     bottom: 12px;
   }
 }
-@media (max-width: 767px) {.legend-detail::before {
+@media (max-width: 767px) {.legend-detail {
+    --legend-mobile-title-size: clamp(2.5rem, 12.5vw, 3.25rem);
+    --legend-mobile-label-size: clamp(0.6875rem, 2.85vw, 0.75rem);
+    --legend-mobile-body-size: clamp(0.9375rem, 3.8vw, 1rem);
+    --legend-mobile-secondary-size: clamp(0.8125rem, 3.45vw, 0.875rem);
+    font-family: var(--font-legend-body), Arial, sans-serif;
+  }
+.legend-detail::before {
     top: var(--legend-header-height);
     left: 20px;
   }
@@ -774,20 +781,80 @@
       max(40px, calc(env(safe-area-inset-left) + 20px));
   }
 .legend-detail__heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 0;
     width: min(100%, 390px);
+    padding-bottom: 11px;
   }
-.legend-detail__heading h1 {
-    font-size: clamp(4.25rem, 22vw, 6rem);
+.legend-detail__classification {
+    position: static;
+    margin: 0 0 7px 2px;
   }
-.legend-detail--bangalore .legend-detail__heading h1 {
-    font-size: clamp(2.7rem, 13.8vw, 3.55rem);
+.legend-detail .legend-detail__heading h1 {
+    min-width: 0;
+    max-width: 100%;
+    font-family: var(--font-legend-display), "Arial Narrow", Arial, sans-serif;
+    font-size: var(--legend-mobile-title-size);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 0.9;
+    white-space: nowrap;
   }
-.legend-detail--bloodhound .legend-detail__heading h1 {
-    font-size: clamp(2.3rem, 11.7vw, 3rem);
+.legend-detail__role {
+    justify-self: start;
+    gap: 6px;
+    margin: 8px 0 0 2px;
+    font-family: var(--font-legend-display), "Arial Narrow", Arial, sans-serif;
+    font-size: var(--legend-mobile-label-size);
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+.legend-detail__classification,
+  .legend-detail__age,
+  .legend-detail__tagline,
+  .legend-abilities__header,
+  .legend-ability-detail > p,
+  .legend-detail__metadata dt,
+  .legend-class-perk__copy > span,
+  .legend-class-perk__tags span,
+  .legend-ability > span {
+    font-family: var(--font-legend-display), "Arial Narrow", Arial, sans-serif;
+  }
+.legend-detail__classification,
+  .legend-detail__age,
+  .legend-abilities__header,
+  .legend-ability-detail > p,
+  .legend-detail__metadata dt {
+    font-size: var(--legend-mobile-label-size);
+  }
+.legend-detail__age {
+    margin-top: 15px;
+  }
+.legend-detail__tagline {
+    margin-bottom: 11px;
+    font-size: 0.875rem;
+    letter-spacing: 0.07em;
   }
 .legend-detail__story {
     max-width: 390px;
-    font-size: clamp(0.9375rem, 3.7vw, 1.05rem);
+    font-size: var(--legend-mobile-body-size);
+    line-height: 1.5;
+  }
+.legend-detail__more {
+    font-size: 0.75rem;
+  }
+.legend-class-perk__copy strong {
+    font-size: 1rem;
+  }
+.legend-class-perk__copy small,
+  .legend-class-perk__panel > p,
+  .legend-ability-detail > span {
+    font-size: var(--legend-mobile-secondary-size);
+  }
+.legend-ability-detail h2 {
+    font-size: 1.125rem;
   }
 .legend-detail__metadata {
     max-width: 390px;
@@ -812,6 +879,11 @@
   }
 .legend-class-perk__copy > span {
     font-size: clamp(0.5625rem, 2.35vw, 0.625rem);
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+  }
+.legend-class-perk__copy > span i {
+    display: none;
   }
 .legend-class-perk__copy small {
     display: -webkit-box;
@@ -857,9 +929,6 @@
     padding-top: 20px;
     padding-bottom: 68px;
   }
-.legend-detail__heading h1 {
-    font-size: clamp(4.1rem, 19vw, 5.35rem);
-  }
 .legend-detail__age {
     margin-top: 12px;
   }
@@ -867,7 +936,7 @@
     margin-bottom: 10px;
   }
 .legend-detail__story {
-    font-size: 0.9rem;
+    font-size: 0.90625rem;
     line-height: 1.45;
   }
 .legend-detail__more {
@@ -918,25 +987,6 @@
     bottom: 9px;
   }
 }
-@media (max-width: 767px) {.legend-detail--ballistic .legend-detail__heading h1,
-  .legend-detail--catalyst .legend-detail__heading h1,
-  .legend-detail--gibraltar .legend-detail__heading h1,
-  .legend-detail--horizon .legend-detail__heading h1,
-  .legend-detail--lifeline .legend-detail__heading h1,
-  .legend-detail--newcastle .legend-detail__heading h1,
-  .legend-detail--rampart .legend-detail__heading h1,
-  .legend-detail--revenant .legend-detail__heading h1,
-  .legend-detail--valkyrie .legend-detail__heading h1,
-  .legend-detail--wattson .legend-detail__heading h1 {
-    font-size: clamp(2.75rem, 14vw, 3.75rem);
-  }
-.legend-detail--pathfinder .legend-detail__heading h1 {
-    font-size: clamp(2.55rem, 12.8vw, 3.45rem);
-  }
-.legend-detail--mad-maggie .legend-detail__heading h1 {
-    font-size: clamp(2.4rem, 11.5vw, 3.35rem);
-  }
-}
 @media (max-width: 359px) {.legend-detail::before {
     left: 16px;
   }
@@ -944,8 +994,7 @@
     padding-right: 16px;
     padding-left: 32px;
   }
-.legend-detail__story,
-  .legend-ability-detail > span {
+.legend-ability-detail > span {
     font-size: 0.875rem;
   }
 .legend-class-perk__copy strong {
