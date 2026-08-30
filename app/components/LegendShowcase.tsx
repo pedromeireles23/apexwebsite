@@ -770,7 +770,7 @@ export default function LegendShowcase() {
         const bottomFadeSize = Number.parseFloat(
           showcaseStyles.getPropertyValue("--legend-fade-bottom-size")
         );
-        const rects = getItemRects(forceNearest);
+        const rects = getItemRects(forceNearest || isMobileScroller);
 
         rects.forEach((rect, index) => {
           const item = itemRefs.current[index];

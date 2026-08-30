@@ -2269,8 +2269,8 @@ a {
 
 
   .legend-logo {
-    width: 52px;
-    height: 36px;
+    width: 64px;
+    height: 44px;
   }
 
 
@@ -2330,12 +2330,13 @@ a {
 
   .legend-item {
     min-height: var(--legend-item-height);
-    padding: 8px 0 8px 16px;
+    padding: 6px 0 6px 14px;
   }
 
 
 
   .legend-item::before {
+    top: calc(50% - 14px);
     left: 0;
     width: 7px;
     height: 7px;
@@ -2344,7 +2345,9 @@ a {
 
 
   .legend-item::after {
-    left: 16px;
+    top: calc(50% + 10px);
+    bottom: auto;
+    left: 14px;
   }
 
 
@@ -2454,7 +2457,7 @@ a {
 
   .legend-item {
     min-height: 64px;
-    padding-block: 7px;
+    padding-block: 6px;
   }
 
   .legend-item__name {
@@ -2491,7 +2494,7 @@ a {
 
   .legend-item {
     min-height: 64px;
-    padding-block: 7px;
+    padding-block: 6px;
   }
 
 
