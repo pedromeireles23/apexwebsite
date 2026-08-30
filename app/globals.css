@@ -14,6 +14,7 @@
 html {
   background: var(--apex-ink);
   scrollbar-gutter: stable;
+  overflow-x: clip;
 }
 
 html::-webkit-scrollbar,
@@ -1022,6 +1023,10 @@ a {
   background: linear-gradient(90deg, var(--apex-red), rgba(255, 255, 255, 0.28));
 }
 
+.legend-scroll-surface {
+  display: contents;
+}
+
 .legend-interface {
   position: relative;
   z-index: 5;
@@ -1933,6 +1938,18 @@ a {
 }
 
 @media (max-width: 767px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  html {
+    scrollbar-gutter: auto;
+  }
+
   html::-webkit-scrollbar,
   body::-webkit-scrollbar {
     width: 9px;
@@ -1955,15 +1972,77 @@ a {
 
 
   .legend-showcase {
-    --legend-header-height: 82px;
+    --legend-header-height: 70px;
     --legend-fade-top-start: 60px;
-    --legend-fade-top-end: 100px;
+    --legend-fade-top-end: 96px;
     --legend-fade-bottom-size: 80px;
+    --legend-active-anchor: clamp(136px, 20svh, 172px);
+    --legend-item-height: 68px;
     --legend-end-gutter: max(
-      80px,
-      calc(48px + env(safe-area-inset-bottom))
+      96px,
+      calc(
+        100svh - var(--legend-active-anchor) - 34px +
+          env(safe-area-inset-bottom)
+      )
     );
-    min-height: 100svh;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    contain: paint;
+  }
+
+  .legend-scroll-surface {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow-anchor: none;
+    overscroll-behavior-x: none;
+    scrollbar-width: none;
+    scroll-padding-top: var(--legend-active-anchor);
+    touch-action: pan-y;
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent var(--legend-fade-top-start),
+      #000 var(--legend-fade-top-end),
+      #000 calc(100% - var(--legend-fade-bottom-size)),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent var(--legend-fade-top-start),
+      #000 var(--legend-fade-top-end),
+      #000 calc(100% - var(--legend-fade-bottom-size)),
+      transparent 100%
+    );
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .legend-scroll-surface::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .is-detail .legend-scroll-surface {
+    overflow: hidden;
+    touch-action: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .legend-stage {
+    position: absolute;
+    inset: 0;
+    height: 100%;
   }
 
 
@@ -2182,15 +2261,16 @@ a {
 
 
   .legend-header {
-    padding: 18px max(20px, env(safe-area-inset-right)) 18px
-      max(20px, env(safe-area-inset-left));
+    position: absolute;
+    padding: 12px max(16px, env(safe-area-inset-right)) 12px
+      max(16px, env(safe-area-inset-left));
   }
 
 
 
   .legend-logo {
-    width: 68px;
-    height: 46px;
+    width: 52px;
+    height: 36px;
   }
 
 
@@ -2209,15 +2289,15 @@ a {
 
 
   .legend-readout {
-    top: 102px;
-    right: 20px;
-    font-size: 9px;
+    top: 84px;
+    right: 16px;
+    font-size: 8px;
   }
 
 
 
   .legend-counter {
-    right: 20px;
+    right: 16px;
     bottom: 24px;
   }
 
@@ -2226,29 +2306,31 @@ a {
   .legend-interface {
     display: block;
     min-height: 0;
-    padding: 116px 20px var(--legend-end-gutter);
+    margin-top: 0;
+    padding: 100px 16px var(--legend-end-gutter);
   }
 
 
 
   .legend-eyebrow {
     width: 100%;
-    margin-bottom: 16px;
-    font-size: clamp(0.625rem, 2.8vw, 0.6875rem);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    font-size: clamp(0.5625rem, 2.45vw, 0.625rem);
   }
 
 
 
   .legend-list {
     width: 100%;
-    gap: 10px;
+    gap: 0;
   }
 
 
 
   .legend-item {
-    min-height: 82px;
-    padding: 12px 0 12px 20px;
+    min-height: var(--legend-item-height);
+    padding: 8px 0 8px 16px;
   }
 
 
@@ -2262,13 +2344,13 @@ a {
 
 
   .legend-item::after {
-    left: 20px;
+    left: 16px;
   }
 
 
 
   .legend-item__name {
-    font-size: clamp(2.35rem, 11.5vw, 4rem);
+    font-size: clamp(2.125rem, 9.2vw, 2.375rem);
     line-height: 0.96;
   }
 
@@ -2367,33 +2449,33 @@ a {
 
 @media (max-width: 767px) and (max-height: 720px) {
   .legend-list {
-    gap: 4px;
+    gap: 0;
   }
 
   .legend-item {
-    min-height: 68px;
-    padding-block: 8px;
+    min-height: 64px;
+    padding-block: 7px;
   }
 
   .legend-item__name {
-    font-size: clamp(2.2rem, 10.7vw, 3.25rem);
+    font-size: clamp(2rem, 8.8vw, 2.25rem);
   }
 }
 
 @media (max-width: 359px) {
   .legend-header {
-    padding-inline: 16px;
+    padding-inline: 14px;
   }
 
 
   .legend-readout,
   .legend-counter {
-    right: 16px;
+    right: 14px;
   }
 
 
   .legend-interface {
-    padding: 112px 16px var(--legend-end-gutter);
+    padding: 96px 14px var(--legend-end-gutter);
   }
 
 
@@ -2403,18 +2485,18 @@ a {
 
 
   .legend-list {
-    gap: 7px;
+    gap: 0;
   }
 
 
   .legend-item {
-    min-height: 74px;
-    padding-block: 10px;
+    min-height: 64px;
+    padding-block: 7px;
   }
 
 
   .legend-item__name {
-    font-size: clamp(2.25rem, 11.35vw, 2.55rem);
+    font-size: clamp(2rem, 9vw, 2.125rem);
   }
 
 

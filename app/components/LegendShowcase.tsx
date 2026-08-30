@@ -334,6 +334,13 @@ const clampProgress = (value: number) => Math.min(1, Math.max(0, value));
 const DISCRETE_WHEEL_MIN_DELTA = 48;
 const PRECISION_WHEEL_GRACE_MS = 180;
 const DISCRETE_WHEEL_TAIL_MS = 80;
+const MOBILE_SHOWCASE_QUERY = "(max-width: 767px)";
+
+const usesMobileShowcaseScroller = () =>
+  window.matchMedia(MOBILE_SHOWCASE_QUERY).matches;
+
+const getMobileActiveAnchor = () =>
+  Math.min(172, Math.max(136, window.innerHeight * 0.2));
 
 const getItemCenterWithinShowcase = (
   item: HTMLElement,
@@ -350,7 +357,18 @@ const getItemCenterWithinShowcase = (
   return itemCenter;
 };
 
-const getShowcaseScrollRange = (showcase: HTMLElement) => {
+const getShowcaseScrollRange = (
+  showcase: HTMLElement,
+  scrollSurface: HTMLElement | null
+) => {
+  if (usesMobileShowcaseScroller() && scrollSurface) {
+    return {
+      start: 0,
+      end: Math.max(0, scrollSurface.scrollHeight - scrollSurface.clientHeight),
+      position: scrollSurface.scrollTop,
+    };
+  }
+
   const documentMaxScroll = Math.max(
     0,
     document.documentElement.scrollHeight - window.innerHeight
@@ -367,11 +385,13 @@ const getShowcaseScrollRange = (showcase: HTMLElement) => {
   return {
     start: showcaseStart,
     end: Math.max(showcaseStart, showcaseEnd),
+    position: window.scrollY,
   };
 };
 
 const getLegendScrollPosition = (
   showcase: HTMLElement,
+  scrollSurface: HTMLElement | null,
   items: Array<HTMLElement | null>,
   targetIndex: number
 ) => {
@@ -381,6 +401,21 @@ const getLegendScrollPosition = (
 
   if (!firstItem || !targetItem || !lastItem) return null;
 
+  if (usesMobileShowcaseScroller() && scrollSurface) {
+    const surfaceRect = scrollSurface.getBoundingClientRect();
+    const targetRect = targetItem.getBoundingClientRect();
+    const targetCenter = targetRect.top + targetRect.height / 2;
+    const targetScroll =
+      scrollSurface.scrollTop +
+      targetCenter -
+      (surfaceRect.top + getMobileActiveAnchor());
+
+    return Math.min(
+      Math.max(0, targetScroll),
+      Math.max(0, scrollSurface.scrollHeight - scrollSurface.clientHeight)
+    );
+  }
+
   const firstCenter = getItemCenterWithinShowcase(firstItem, showcase);
   const targetCenter = getItemCenterWithinShowcase(targetItem, showcase);
   const lastCenter = getItemCenterWithinShowcase(lastItem, showcase);
@@ -389,9 +424,21 @@ const getLegendScrollPosition = (
     itemRange > 0
       ? clampProgress((targetCenter - firstCenter) / itemRange)
       : 0;
-  const scrollRange = getShowcaseScrollRange(showcase);
+  const scrollRange = getShowcaseScrollRange(showcase, scrollSurface);
 
   return scrollRange.start + (scrollRange.end - scrollRange.start) * progress;
+};
+
+const scrollToShowcasePosition = (
+  scrollSurface: HTMLElement | null,
+  top: number
+) => {
+  if (usesMobileShowcaseScroller() && scrollSurface) {
+    scrollSurface.scrollTo({ top, behavior: "auto" });
+    return;
+  }
+
+  window.scrollTo({ top, behavior: "auto" });
 };
 
 function AlterMotionPoster() {
@@ -538,6 +585,7 @@ export default function LegendShowcase() {
     isLegendDetail ? "detail" : "index"
   );
   const showcaseRef = useRef<HTMLElement | null>(null);
+  const scrollSurfaceRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const transitionTimerRef = useRef<number | null>(null);
   const scrollIdleTimerRef = useRef<number | null>(null);
@@ -592,12 +640,14 @@ export default function LegendShowcase() {
         alignmentTimer = window.setTimeout(() => {
           alignmentFrame = requestAnimationFrame(() => {
             const showcase = showcaseRef.current;
+            const scrollSurface = scrollSurfaceRef.current;
             const item = itemRefs.current[targetIndex];
 
             if (!showcase || !item) return;
 
             const nextScroll = getLegendScrollPosition(
               showcase,
+              scrollSurface,
               itemRefs.current,
               targetIndex
             );
@@ -607,7 +657,7 @@ export default function LegendShowcase() {
             scrollIndexRef.current = targetIndex;
             setScrollIndex(targetIndex);
             setHoverIndex(null);
-            window.scrollTo({ top: nextScroll, behavior: "auto" });
+            scrollToShowcasePosition(scrollSurface, nextScroll);
 
             if (shouldRestoreFocus) {
               item.focus({ preventScroll: true });
@@ -646,6 +696,7 @@ export default function LegendShowcase() {
     let discreteWheelTailUntil = 0;
     let discreteWheelDirection = 0;
     const visibleItemIndices = new Set<number>();
+    const scrollSurface = scrollSurfaceRef.current;
 
     const commitScrollIndex = (index: number) => {
       scrollIndexRef.current = index;
@@ -709,6 +760,7 @@ export default function LegendShowcase() {
         }
 
         const showcaseStyles = window.getComputedStyle(showcase);
+        const isMobileScroller = usesMobileShowcaseScroller();
         const topFadeStart = Number.parseFloat(
           showcaseStyles.getPropertyValue("--legend-fade-top-start")
         );
@@ -723,6 +775,12 @@ export default function LegendShowcase() {
         rects.forEach((rect, index) => {
           const item = itemRefs.current[index];
           if (!item || !rect) return;
+
+          if (isMobileScroller) {
+            item.style.removeProperty("--edge-mask");
+            return;
+          }
+
           const topTransparentStop = topFadeStart - rect.top;
           const topSolidStop = topFadeEnd - rect.top;
           const bottomSolidStop =
@@ -744,6 +802,21 @@ export default function LegendShowcase() {
 
         if (!firstItem || !lastItem) return;
 
+        if (isMobileScroller && scrollSurface) {
+          const surfaceTop = scrollSurface.getBoundingClientRect().top;
+          const itemCenters = rects.map((rect) =>
+            rect ? rect.top + rect.height / 2 : null
+          );
+
+          commitScrollIndex(
+            findNearestIndex(
+              itemCenters,
+              surfaceTop + getMobileActiveAnchor()
+            )
+          );
+          return;
+        }
+
         const itemCenters = itemRefs.current.map((item) =>
           item ? getItemCenterWithinShowcase(item, showcase) : null
         );
@@ -752,12 +825,12 @@ export default function LegendShowcase() {
 
         if (firstCenter === null || lastCenter === null) return;
 
-        const scrollRange = getShowcaseScrollRange(showcase);
+        const scrollRange = getShowcaseScrollRange(showcase, scrollSurface);
         const scrollLength = scrollRange.end - scrollRange.start;
         const progress =
           scrollLength > 0
             ? clampProgress(
-                (window.scrollY - scrollRange.start) / scrollLength
+                (scrollRange.position - scrollRange.start) / scrollLength
               )
             : 0;
         const targetCenter =
@@ -777,6 +850,19 @@ export default function LegendShowcase() {
                   (entry.target as HTMLElement).dataset.legendIndex
                 );
                 if (!Number.isInteger(index)) return;
+
+                if (usesMobileShowcaseScroller()) {
+                  (entry.target as HTMLElement).style.removeProperty(
+                    "--edge-mask"
+                  );
+
+                  if (entry.isIntersecting) {
+                    visibleItemIndices.add(index);
+                  } else {
+                    visibleItemIndices.delete(index);
+                  }
+                  return;
+                }
 
                 if (entry.isIntersecting) {
                   visibleItemIndices.add(index);
@@ -821,6 +907,8 @@ export default function LegendShowcase() {
     };
 
     const handleWheel = (event: WheelEvent) => {
+      if (usesMobileShowcaseScroller()) return;
+
       if (
         event.defaultPrevented ||
         event.ctrlKey ||
@@ -856,10 +944,10 @@ export default function LegendShowcase() {
       const showcase = showcaseRef.current;
       if (!showcase) return;
 
-      const scrollRange = getShowcaseScrollRange(showcase);
+      const scrollRange = getShowcaseScrollRange(showcase, scrollSurface);
       const isInsideShowcaseScroll =
-        window.scrollY >= scrollRange.start - 1 &&
-        window.scrollY <= scrollRange.end + 1;
+        scrollRange.position >= scrollRange.start - 1 &&
+        scrollRange.position <= scrollRange.end + 1;
 
       if (!isInsideShowcaseScroll) return;
 
@@ -869,6 +957,7 @@ export default function LegendShowcase() {
       );
       const targetScroll = getLegendScrollPosition(
         showcase,
+        scrollSurface,
         itemRefs.current,
         targetIndex
       );
@@ -882,7 +971,7 @@ export default function LegendShowcase() {
       scrollIndexRef.current = targetIndex;
       setScrollIndex(targetIndex);
       setHoverIndex(null);
-      window.scrollTo({ top: targetScroll, behavior: "auto" });
+      scrollToShowcasePosition(scrollSurface, targetScroll);
 
       if (scrollIdleTimerRef.current) {
         window.clearTimeout(scrollIdleTimerRef.current);
@@ -900,6 +989,9 @@ export default function LegendShowcase() {
     window.addEventListener("scroll", handleScroll, {
       passive: true,
     });
+    scrollSurface?.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -913,6 +1005,7 @@ export default function LegendShowcase() {
       visibleItemIndices.clear();
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("scroll", handleScroll);
+      scrollSurface?.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
   }, [isLegendDetail]);
@@ -947,12 +1040,14 @@ export default function LegendShowcase() {
 
   const focusLegendItem = (targetIndex: number) => {
     const showcase = showcaseRef.current;
+    const scrollSurface = scrollSurfaceRef.current;
     const item = itemRefs.current[targetIndex];
 
     if (!showcase || !item) return;
 
     const targetScroll = getLegendScrollPosition(
       showcase,
+      scrollSurface,
       itemRefs.current,
       targetIndex
     );
@@ -962,7 +1057,7 @@ export default function LegendShowcase() {
     scrollIndexRef.current = targetIndex;
     setScrollIndex(targetIndex);
     setHoverIndex(targetIndex);
-    window.scrollTo({ top: targetScroll, behavior: "auto" });
+    scrollToShowcasePosition(scrollSurface, targetScroll);
     item.focus({ preventScroll: true });
   };
 
@@ -1125,17 +1220,19 @@ export default function LegendShowcase() {
         </div>
       </div>
 
-      <div
-        className="legend-interface"
-        key={isLegendDetail ? "detail-interface" : "index-interface"}
-        aria-hidden={isLegendDetail}
-        inert={isLegendDetail ? true : undefined}
-      >
-        <p className="legend-eyebrow">Selecione sua Lenda</p>
+      <div className="legend-scroll-surface" ref={scrollSurfaceRef}>
+        <div
+          className="legend-interface"
+          key={isLegendDetail ? "detail-interface" : "index-interface"}
+          aria-hidden={isLegendDetail}
+          inert={isLegendDetail ? true : undefined}
+        >
+          <p className="legend-eyebrow">Selecione sua Lenda</p>
 
-        <nav className="legend-list" aria-label="Seleção de Lendas">
-          {legends.map((legend, index) => renderLegendItem(legend, index))}
-        </nav>
+          <nav className="legend-list" aria-label="Seleção de Lendas">
+            {legends.map((legend, index) => renderLegendItem(legend, index))}
+          </nav>
+        </div>
       </div>
 
       {detailSlug ? (

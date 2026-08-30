@@ -30,6 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Local Markdown notes and agent instructions
+*.md
+
 # Local environment files (keep a documented example if one is added)
 .env*
 !.env.example
