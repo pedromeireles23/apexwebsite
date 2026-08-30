@@ -1,0 +1,751 @@
+/* Motion posters loaded with ArchiveMotionPoster. */
+.archive-motion,
+.archive-motion__backdrop,
+.archive-motion__wash,
+.archive-motion__scan,
+.archive-motion__particles {
+  position: absolute;
+  inset: 0;
+}
+.archive-motion {
+  --motion-primary: 239 68 68;
+  --motion-secondary: 255 255 255;
+  --motion-position: 50% 50%;
+  --motion-backdrop-position: 50% 50%;
+  --motion-backdrop-mobile-position: var(--motion-backdrop-position);
+  overflow: hidden;
+  background: #030608;
+}
+.legend-media__layer--axle,
+.legend-media__layer--axle.is-active {
+  transform: none;
+}
+.legend-media__layer--axle {
+  overflow: hidden;
+  background: #05080b;
+  transition: opacity 420ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.archive-motion__backdrop {
+  opacity: 0.62;
+  filter: saturate(0.72) contrast(1.12) brightness(0.58);
+  transform: scale(1.09);
+  transform-origin: 72% 42%;
+}
+.archive-motion__backdrop img {
+  object-position: var(--motion-backdrop-position);
+}
+.archive-motion__wash {
+  z-index: 1;
+  background:
+    radial-gradient(circle at 74% 42%, rgb(var(--motion-primary) / 0.24), transparent 27%),
+    radial-gradient(circle at 56% 72%, rgb(var(--motion-secondary) / 0.13), transparent 34%),
+    linear-gradient(90deg, #020304 0%, rgb(2 4 7 / 0.93) 23%, transparent 64%),
+    linear-gradient(180deg, rgb(0 0 0 / 0.36), transparent 30%, rgb(0 0 0 / 0.48));
+  mix-blend-mode: screen;
+}
+.archive-motion__rings {
+  position: absolute;
+  top: 13%;
+  right: 4%;
+  z-index: 2;
+  width: min(47vw, 690px);
+  aspect-ratio: 1;
+  opacity: 0;
+  transform: scale(0.72) rotate(-14deg);
+}
+.archive-motion__rings::before,
+.archive-motion__rings::after,
+.archive-motion__rings span {
+  content: "";
+  position: absolute;
+  border: 1px solid rgb(var(--motion-primary) / 0.28);
+  border-radius: 50%;
+}
+.archive-motion__rings::before {
+  inset: 0;
+  border-style: dashed;
+}
+.archive-motion__rings::after {
+  inset: 13%;
+  border-color: rgb(var(--motion-secondary) / 0.23);
+}
+.archive-motion__rings span:nth-child(1) {
+  inset: 28%;
+}
+.archive-motion__rings span:nth-child(2) {
+  inset: 41%;
+  background: rgb(var(--motion-primary) / 0.08);
+}
+.archive-motion__rings span:nth-child(3) {
+  top: 49.8%;
+  right: -8%;
+  left: -8%;
+  height: 1px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, transparent, rgb(var(--motion-primary) / 0.65), transparent);
+}
+.archive-motion__portrait,
+.archive-motion__echo {
+  position: absolute;
+  top: -2%;
+  right: -1.5%;
+  z-index: 4;
+  width: min(73vw, 1240px);
+  height: 108%;
+  transform-origin: 64% 48%;
+}
+.archive-motion__portrait img,
+.archive-motion__echo img {
+  object-fit: cover;
+  object-position: var(--motion-position);
+}
+.archive-motion__portrait {
+  opacity: 0;
+  filter: drop-shadow(-22px 24px 36px rgb(0 0 0 / 0.72));
+  transform: translate3d(8%, 2%, 0) scale(1.08);
+}
+.archive-motion--ballistic .archive-motion__portrait,
+.archive-motion--ballistic .archive-motion__echo,
+.archive-motion--fuse .archive-motion__portrait,
+.archive-motion--fuse .archive-motion__echo {
+  right: auto;
+  left: clamp(-280px, calc(68vw - 117svh), 42vw);
+  width: 192svh;
+  max-width: none;
+}
+.archive-motion--ballistic .archive-motion__portrait img,
+.archive-motion--ballistic .archive-motion__echo img,
+.archive-motion--fuse .archive-motion__portrait img,
+.archive-motion--fuse .archive-motion__echo img {
+  object-fit: contain;
+  object-position: 50% 50%;
+}
+.archive-motion--ballistic .archive-motion__portrait {
+  filter: saturate(0.92) contrast(1.03)
+    drop-shadow(-8px 18px 28px rgb(0 0 0 / 0.48));
+}
+.archive-motion--gibraltar .archive-motion__portrait,
+.archive-motion--gibraltar .archive-motion__echo,
+.archive-motion--horizon .archive-motion__portrait,
+.archive-motion--horizon .archive-motion__echo,
+.archive-motion--lifeline .archive-motion__portrait,
+.archive-motion--lifeline .archive-motion__echo,
+.archive-motion--loba .archive-motion__portrait,
+.archive-motion--loba .archive-motion__echo,
+.archive-motion--mad-maggie .archive-motion__portrait,
+.archive-motion--mad-maggie .archive-motion__echo,
+.archive-motion--mirage .archive-motion__portrait,
+.archive-motion--mirage .archive-motion__echo,
+.archive-motion--newcastle .archive-motion__portrait,
+.archive-motion--newcastle .archive-motion__echo,
+.archive-motion--octane .archive-motion__portrait,
+.archive-motion--octane .archive-motion__echo,
+.archive-motion--pathfinder .archive-motion__portrait,
+.archive-motion--pathfinder .archive-motion__echo,
+.archive-motion--axle .archive-motion__portrait,
+.archive-motion--axle .archive-motion__echo,
+.archive-motion--rampart .archive-motion__portrait,
+.archive-motion--rampart .archive-motion__echo,
+.archive-motion--revenant .archive-motion__portrait,
+.archive-motion--revenant .archive-motion__echo,
+.archive-motion--seer .archive-motion__portrait,
+.archive-motion--seer .archive-motion__echo,
+.archive-motion--sparrow .archive-motion__portrait,
+.archive-motion--sparrow .archive-motion__echo,
+.archive-motion--valkyrie .archive-motion__portrait,
+.archive-motion--valkyrie .archive-motion__echo,
+.archive-motion--vantage .archive-motion__portrait,
+.archive-motion--vantage .archive-motion__echo,
+.archive-motion--wattson .archive-motion__portrait,
+.archive-motion--wattson .archive-motion__echo,
+.archive-motion--wraith .archive-motion__portrait,
+.archive-motion--wraith .archive-motion__echo {
+  right: -3%;
+  width: min(66vw, 1120px);
+}
+.archive-motion--gibraltar .archive-motion__portrait img,
+.archive-motion--gibraltar .archive-motion__echo img,
+.archive-motion--horizon .archive-motion__portrait img,
+.archive-motion--horizon .archive-motion__echo img,
+.archive-motion--lifeline .archive-motion__portrait img,
+.archive-motion--lifeline .archive-motion__echo img,
+.archive-motion--loba .archive-motion__portrait img,
+.archive-motion--loba .archive-motion__echo img,
+.archive-motion--mad-maggie .archive-motion__portrait img,
+.archive-motion--mad-maggie .archive-motion__echo img,
+.archive-motion--mirage .archive-motion__portrait img,
+.archive-motion--mirage .archive-motion__echo img,
+.archive-motion--newcastle .archive-motion__portrait img,
+.archive-motion--newcastle .archive-motion__echo img,
+.archive-motion--octane .archive-motion__portrait img,
+.archive-motion--octane .archive-motion__echo img,
+.archive-motion--pathfinder .archive-motion__portrait img,
+.archive-motion--pathfinder .archive-motion__echo img,
+.archive-motion--axle .archive-motion__portrait img,
+.archive-motion--axle .archive-motion__echo img,
+.archive-motion--rampart .archive-motion__portrait img,
+.archive-motion--rampart .archive-motion__echo img,
+.archive-motion--revenant .archive-motion__portrait img,
+.archive-motion--revenant .archive-motion__echo img,
+.archive-motion--seer .archive-motion__portrait img,
+.archive-motion--seer .archive-motion__echo img,
+.archive-motion--sparrow .archive-motion__portrait img,
+.archive-motion--sparrow .archive-motion__echo img,
+.archive-motion--valkyrie .archive-motion__portrait img,
+.archive-motion--valkyrie .archive-motion__echo img,
+.archive-motion--vantage .archive-motion__portrait img,
+.archive-motion--vantage .archive-motion__echo img,
+.archive-motion--wattson .archive-motion__portrait img,
+.archive-motion--wattson .archive-motion__echo img,
+.archive-motion--wraith .archive-motion__portrait img,
+.archive-motion--wraith .archive-motion__echo img {
+  object-fit: contain;
+  object-position: center bottom;
+}
+.archive-motion--gibraltar .archive-motion__portrait,
+.archive-motion--gibraltar .archive-motion__echo {
+  right: -6%;
+  width: min(72vw, 1200px);
+}
+.archive-motion--gibraltar .archive-motion__portrait,
+.archive-motion--gibraltar .archive-motion__echo,
+.archive-motion--lifeline .archive-motion__portrait,
+.archive-motion--lifeline .archive-motion__echo,
+.archive-motion--loba .archive-motion__portrait,
+.archive-motion--loba .archive-motion__echo,
+.archive-motion--horizon .archive-motion__portrait,
+.archive-motion--horizon .archive-motion__echo,
+.archive-motion--mirage .archive-motion__portrait,
+.archive-motion--mirage .archive-motion__echo,
+.archive-motion--newcastle .archive-motion__portrait,
+.archive-motion--newcastle .archive-motion__echo,
+.archive-motion--octane .archive-motion__portrait,
+.archive-motion--octane .archive-motion__echo,
+.archive-motion--pathfinder .archive-motion__portrait,
+.archive-motion--pathfinder .archive-motion__echo,
+.archive-motion--axle .archive-motion__portrait,
+.archive-motion--axle .archive-motion__echo,
+.archive-motion--rampart .archive-motion__portrait,
+.archive-motion--rampart .archive-motion__echo,
+.archive-motion--revenant .archive-motion__portrait,
+.archive-motion--revenant .archive-motion__echo,
+.archive-motion--seer .archive-motion__portrait,
+.archive-motion--seer .archive-motion__echo,
+.archive-motion--sparrow .archive-motion__portrait,
+.archive-motion--sparrow .archive-motion__echo,
+.archive-motion--valkyrie .archive-motion__portrait,
+.archive-motion--valkyrie .archive-motion__echo,
+.archive-motion--vantage .archive-motion__portrait,
+.archive-motion--vantage .archive-motion__echo,
+.archive-motion--wattson .archive-motion__portrait,
+.archive-motion--wattson .archive-motion__echo,
+.archive-motion--wraith .archive-motion__portrait,
+.archive-motion--wraith .archive-motion__echo {
+  top: calc(var(--legend-header-height) + clamp(44px, 5svh, 70px));
+  height: 108svh;
+}
+.archive-motion--axle .archive-motion__portrait,
+.archive-motion--axle .archive-motion__echo,
+.archive-motion--rampart .archive-motion__portrait,
+.archive-motion--rampart .archive-motion__echo,
+.archive-motion--revenant .archive-motion__portrait,
+.archive-motion--revenant .archive-motion__echo,
+.archive-motion--seer .archive-motion__portrait,
+.archive-motion--seer .archive-motion__echo,
+.archive-motion--sparrow .archive-motion__portrait,
+.archive-motion--sparrow .archive-motion__echo,
+.archive-motion--valkyrie .archive-motion__portrait,
+.archive-motion--valkyrie .archive-motion__echo,
+.archive-motion--vantage .archive-motion__portrait,
+.archive-motion--vantage .archive-motion__echo,
+.archive-motion--wattson .archive-motion__portrait,
+.archive-motion--wattson .archive-motion__echo,
+.archive-motion--wraith .archive-motion__portrait,
+.archive-motion--wraith .archive-motion__echo {
+  top: calc(var(--legend-header-height) + clamp(72px, 8svh, 104px));
+  height: 100svh;
+}
+.archive-motion--newcastle .archive-motion__portrait,
+.archive-motion--newcastle .archive-motion__echo {
+  right: -5%;
+  width: min(69vw, 1160px);
+}
+.archive-motion--octane .archive-motion__portrait,
+.archive-motion--octane .archive-motion__echo {
+  right: -1%;
+}
+.archive-motion--rampart .archive-motion__portrait,
+.archive-motion--rampart .archive-motion__echo,
+.archive-motion--valkyrie .archive-motion__portrait,
+.archive-motion--valkyrie .archive-motion__echo {
+  right: -5%;
+  width: min(70vw, 1180px);
+}
+.archive-motion--axle .archive-motion__portrait,
+.archive-motion--axle .archive-motion__echo,
+.archive-motion--revenant .archive-motion__portrait,
+.archive-motion--revenant .archive-motion__echo {
+  right: -1%;
+}
+.archive-motion--axle .archive-motion__backdrop {
+  opacity: 0.68;
+  filter: saturate(1.08) contrast(1.1) brightness(0.58);
+  transform-origin: 48% 52%;
+}
+.archive-motion--axle .archive-motion__wash {
+  background:
+    radial-gradient(circle at 58% 50%, rgb(var(--motion-primary) / 0.3), transparent 31%),
+    linear-gradient(115deg, transparent 45%, rgb(var(--motion-secondary) / 0.16) 56%, transparent 70%),
+    linear-gradient(90deg, #020304 0%, rgb(3 3 8 / 0.94) 25%, transparent 68%),
+    linear-gradient(180deg, rgb(0 0 0 / 0.32), transparent 34%, rgb(0 0 0 / 0.54));
+}
+.archive-motion--axle .archive-motion__portrait,
+.archive-motion--axle .archive-motion__echo {
+  top: -4%;
+  right: -4vw;
+  width: min(68vw, 1120px);
+  height: 112%;
+  transform: translate3d(7%, 3%, 0) scale(1.08);
+  transform-origin: 58% 34%;
+  -webkit-mask-image: radial-gradient(ellipse 67% 76% at 59% 46%, #000 42%, rgba(0, 0, 0, 0.94) 61%, transparent 86%);
+  mask-image: radial-gradient(ellipse 67% 76% at 59% 46%, #000 42%, rgba(0, 0, 0, 0.94) 61%, transparent 86%);
+}
+.archive-motion--axle .archive-motion__portrait img,
+.archive-motion--axle .archive-motion__echo img {
+  object-position: 50% 16%;
+  filter: saturate(0.9) contrast(1.12) brightness(0.86);
+  transform: scale(0.88);
+  transform-origin: 50% 100%;
+}
+.archive-motion--axle .archive-motion__portrait {
+  filter: none;
+}
+.legend-media__layer--axle.is-active .archive-motion--axle .archive-motion__portrait {
+  animation: ash-portrait-enter 1.05s cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards,
+    ash-portrait-drift 10s ease-in-out 1.15s infinite alternate;
+}
+.archive-motion--axle .archive-motion__rings {
+  filter: drop-shadow(0 0 18px rgb(var(--motion-primary) / 0.45));
+}
+.archive-motion--mad-maggie .archive-motion__portrait,
+.archive-motion--mad-maggie .archive-motion__echo {
+  top: calc(var(--legend-header-height) - 12px);
+  right: -5%;
+  width: min(62vw, 1030px);
+  height: 118svh;
+}
+.archive-motion__echo {
+  z-index: 3;
+  opacity: 0;
+  filter: saturate(1.8) contrast(1.25)
+    drop-shadow(0 0 18px rgb(var(--motion-primary) / 0.8));
+  transform: translate3d(3%, 0, 0) scale(1.025);
+  mix-blend-mode: screen;
+}
+.archive-motion__scan {
+  z-index: 5;
+  opacity: 0;
+  background:
+    linear-gradient(90deg, transparent 0 70%, rgb(var(--motion-primary) / 0.3) 70.1%, transparent 70.35%),
+    repeating-linear-gradient(0deg, transparent 0 5px, rgb(255 255 255 / 0.025) 6px);
+  mix-blend-mode: screen;
+  transform: translateX(-18%);
+}
+.archive-motion__particles {
+  z-index: 5;
+  opacity: 0;
+  background-image:
+    radial-gradient(circle at 68% 25%, rgb(var(--motion-secondary) / 0.85) 0 1px, transparent 2px),
+    radial-gradient(circle at 82% 47%, rgb(var(--motion-primary) / 0.82) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 58% 73%, rgb(var(--motion-secondary) / 0.62) 0 1px, transparent 2px),
+    radial-gradient(circle at 90% 81%, rgb(var(--motion-primary) / 0.68) 0 1px, transparent 2px),
+    radial-gradient(circle at 46% 38%, rgb(var(--motion-primary) / 0.62) 0 1px, transparent 2px);
+}
+.archive-motion__reticle {
+  position: absolute;
+  top: 35%;
+  right: 18%;
+  z-index: 6;
+  width: 94px;
+  aspect-ratio: 1;
+  border: 1px solid rgb(var(--motion-secondary) / 0.52);
+  opacity: 0;
+  transform: rotate(45deg) scale(1.42);
+}
+.archive-motion__reticle::before,
+.archive-motion__reticle::after,
+.archive-motion__reticle span::before,
+.archive-motion__reticle span::after {
+  content: "";
+  position: absolute;
+  background: rgb(var(--motion-primary) / 0.88);
+}
+.archive-motion__reticle::before {
+  top: 50%;
+  right: -18px;
+  left: -18px;
+  height: 1px;
+}
+.archive-motion__reticle::after {
+  top: -18px;
+  bottom: -18px;
+  left: 50%;
+  width: 1px;
+}
+.archive-motion__reticle span::before {
+  inset: 37%;
+  border: 1px solid rgb(var(--motion-primary) / 0.75);
+  background: transparent;
+}
+.archive-motion__reticle span::after {
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%);
+}
+.archive-motion__telemetry {
+  position: absolute;
+  right: 3vw;
+  bottom: 78px;
+  z-index: 7;
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  color: rgb(var(--motion-primary) / 0.86);
+  font-family: "Arial Narrow", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(18px);
+}
+.archive-motion__telemetry span:last-child {
+  color: rgb(var(--motion-secondary) / 0.74);
+}
+.legend-media__layer.is-active .archive-motion__backdrop {
+  animation: archive-backdrop-enter 7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.legend-media__layer.is-active .archive-motion__portrait {
+  animation: archive-portrait-enter 1.15s cubic-bezier(0.16, 1, 0.3, 1) both,
+    archive-portrait-idle 7.5s 1.15s ease-in-out infinite alternate;
+}
+.legend-media__layer.is-active .archive-motion__echo {
+  animation: archive-echo-enter 1.05s 90ms cubic-bezier(0.16, 1, 0.3, 1) both,
+    archive-echo-pulse 4.8s 1.2s steps(1, end) infinite;
+}
+.legend-media__layer.is-active .archive-motion__rings {
+  animation: archive-rings-enter 1.2s 120ms cubic-bezier(0.16, 1, 0.3, 1) both,
+    archive-rings-idle 15s 1.35s linear infinite;
+}
+.legend-media__layer.is-active .archive-motion__scan {
+  animation: archive-scan 3.9s 280ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.legend-media__layer.is-active .archive-motion__particles {
+  animation: archive-particles 5.8s 340ms ease-in-out infinite;
+}
+.legend-media__layer.is-active .archive-motion__reticle {
+  animation: archive-reticle-enter 820ms 360ms cubic-bezier(0.16, 1, 0.3, 1) both,
+    archive-reticle-idle 6s 1.2s ease-in-out infinite alternate;
+}
+.legend-media__layer.is-active .archive-motion__telemetry {
+  animation: archive-telemetry-enter 620ms 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.archive-motion--ballistic .archive-motion__reticle {
+  top: 28%;
+  right: 29%;
+}
+.archive-motion--catalyst .archive-motion__wash {
+  background:
+    radial-gradient(ellipse at 78% 54%, rgb(var(--motion-primary) / 0.34), transparent 35%),
+    linear-gradient(118deg, transparent 48%, rgb(var(--motion-secondary) / 0.16) 49%, transparent 50%),
+    linear-gradient(90deg, #020304 0%, rgb(2 3 7 / 0.94) 25%, transparent 67%);
+}
+.archive-motion--catalyst .archive-motion__rings {
+  border-radius: 42% 58% 34% 66%;
+  transform: scale(0.72) rotate(18deg);
+}
+.archive-motion--caustic .archive-motion__wash {
+  background:
+    radial-gradient(ellipse at 72% 62%, rgb(var(--motion-primary) / 0.32), transparent 43%),
+    linear-gradient(90deg, #020403 0%, rgb(3 7 4 / 0.93) 28%, transparent 72%),
+    linear-gradient(180deg, transparent 40%, rgb(var(--motion-primary) / 0.13));
+  filter: blur(2px);
+}
+.archive-motion--caustic .archive-motion__particles {
+  background-size: 96% 96%, 82% 82%, 68% 68%, 54% 54%, 42% 42%;
+  filter: blur(1px);
+}
+.archive-motion--conduit .archive-motion__rings {
+  filter: drop-shadow(0 0 15px rgb(var(--motion-primary) / 0.38));
+}
+.archive-motion--crypto .archive-motion__scan {
+  background:
+    linear-gradient(90deg, transparent 0 64%, rgb(var(--motion-primary) / 0.48) 64.1%, transparent 64.6%),
+    repeating-linear-gradient(0deg, transparent 0 7px, rgb(var(--motion-primary) / 0.055) 8px),
+    repeating-linear-gradient(90deg, transparent 0 70px, rgb(var(--motion-primary) / 0.035) 71px);
+}
+.archive-motion--fuse .archive-motion__wash {
+  background:
+    radial-gradient(circle at 76% 63%, rgb(var(--motion-primary) / 0.42), transparent 20%),
+    radial-gradient(circle at 61% 37%, rgb(var(--motion-secondary) / 0.16), transparent 24%),
+    linear-gradient(90deg, #040302 0%, rgb(8 3 1 / 0.91) 25%, transparent 69%);
+}
+@keyframes archive-backdrop-enter {
+  from {
+    opacity: 0.25;
+    transform: scale(1.17) translate3d(2%, 0, 0);
+  }
+  18% {
+    opacity: 0.62;
+  }
+  to {
+    opacity: 0.58;
+    transform: scale(1.08) translate3d(0, -1.5%, 0);
+  }
+}
+@keyframes archive-portrait-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(10%, 2%, 0) scale(1.1);
+    filter: blur(8px) drop-shadow(-22px 24px 36px rgb(0 0 0 / 0.72));
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0) drop-shadow(-22px 24px 36px rgb(0 0 0 / 0.72));
+  }
+}
+@keyframes archive-portrait-idle {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-0.8%, -0.7%, 0) scale(1.018); }
+}
+@keyframes archive-echo-enter {
+  from { opacity: 0; transform: translate3d(6%, 0, 0) scale(1.05); }
+  52% { opacity: 0.42; }
+  to { opacity: 0.08; transform: translate3d(1.1%, 0, 0) scale(1.012); }
+}
+@keyframes archive-echo-pulse {
+  0%, 92%, 100% { opacity: 0.06; transform: translate3d(1.1%, 0, 0) scale(1.012); }
+  94% { opacity: 0.36; transform: translate3d(-0.8%, 0, 0) scale(1.012); }
+  96% { opacity: 0.12; transform: translate3d(1.8%, 0, 0) scale(1.012); }
+}
+@keyframes archive-rings-enter {
+  to { opacity: 0.68; transform: scale(1) rotate(0deg); }
+}
+@keyframes archive-rings-idle {
+  to { transform: scale(1) rotate(360deg); }
+}
+@keyframes archive-scan {
+  0%, 8% { opacity: 0; transform: translateX(-20%); }
+  20%, 67% { opacity: 0.75; }
+  80%, 100% { opacity: 0; transform: translateX(28%); }
+}
+@keyframes archive-particles {
+  0% { opacity: 0; transform: translate3d(0, 3%, 0); }
+  22%, 72% { opacity: 0.76; }
+  100% { opacity: 0; transform: translate3d(-2%, -5%, 0); }
+}
+@keyframes archive-reticle-enter {
+  to { opacity: 0.64; transform: rotate(45deg) scale(1); }
+}
+@keyframes archive-reticle-idle {
+  from { transform: rotate(43deg) scale(0.97); }
+  to { transform: rotate(48deg) scale(1.04); }
+}
+@keyframes archive-telemetry-enter {
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (max-width: 1199px) {.archive-motion__portrait,
+  .archive-motion__echo {
+    right: -7%;
+    width: min(82vw, 1080px);
+  }
+.archive-motion__rings {
+    right: 0;
+    width: min(54vw, 610px);
+  }
+}
+@media (max-width: 767px) {.archive-motion__backdrop {
+    opacity: 0.52;
+    filter: saturate(0.74) contrast(1.08) brightness(0.54);
+  }
+.archive-motion__backdrop img {
+    object-position: var(--motion-backdrop-mobile-position);
+  }
+.archive-motion__wash {
+    background:
+      radial-gradient(circle at 61% 42%, rgb(var(--motion-primary) / 0.28), transparent 35%),
+      linear-gradient(180deg, rgb(0 0 0 / 0.28), transparent 28%, rgb(0 0 0 / 0.62)),
+      linear-gradient(90deg, rgb(2 4 7 / 0.62), transparent 75%);
+  }
+.archive-motion__portrait,
+  .archive-motion__echo {
+    top: 3%;
+    right: -54vw;
+    width: 166vw;
+    height: 96%;
+  }
+.archive-motion__portrait img,
+  .archive-motion__echo img {
+    object-position: var(--motion-position);
+  }
+.archive-motion--catalyst .archive-motion__portrait,
+  .archive-motion--catalyst .archive-motion__echo,
+  .archive-motion--conduit .archive-motion__portrait,
+  .archive-motion--conduit .archive-motion__echo {
+    right: -47vw;
+  }
+.archive-motion--caustic .archive-motion__portrait,
+  .archive-motion--caustic .archive-motion__echo {
+    right: -61vw;
+  }
+.archive-motion--gibraltar .archive-motion__portrait,
+  .archive-motion--gibraltar .archive-motion__echo,
+  .archive-motion--horizon .archive-motion__portrait,
+  .archive-motion--horizon .archive-motion__echo,
+  .archive-motion--lifeline .archive-motion__portrait,
+  .archive-motion--lifeline .archive-motion__echo,
+  .archive-motion--loba .archive-motion__portrait,
+  .archive-motion--loba .archive-motion__echo,
+  .archive-motion--mad-maggie .archive-motion__portrait,
+  .archive-motion--mad-maggie .archive-motion__echo,
+  .archive-motion--mirage .archive-motion__portrait,
+  .archive-motion--mirage .archive-motion__echo,
+  .archive-motion--newcastle .archive-motion__portrait,
+  .archive-motion--newcastle .archive-motion__echo,
+  .archive-motion--octane .archive-motion__portrait,
+  .archive-motion--octane .archive-motion__echo,
+  .archive-motion--pathfinder .archive-motion__portrait,
+  .archive-motion--pathfinder .archive-motion__echo,
+  .archive-motion--axle .archive-motion__portrait,
+  .archive-motion--axle .archive-motion__echo,
+  .archive-motion--rampart .archive-motion__portrait,
+  .archive-motion--rampart .archive-motion__echo,
+  .archive-motion--revenant .archive-motion__portrait,
+  .archive-motion--revenant .archive-motion__echo,
+  .archive-motion--seer .archive-motion__portrait,
+  .archive-motion--seer .archive-motion__echo,
+  .archive-motion--sparrow .archive-motion__portrait,
+  .archive-motion--sparrow .archive-motion__echo,
+  .archive-motion--valkyrie .archive-motion__portrait,
+  .archive-motion--valkyrie .archive-motion__echo,
+  .archive-motion--vantage .archive-motion__portrait,
+  .archive-motion--vantage .archive-motion__echo,
+  .archive-motion--wattson .archive-motion__portrait,
+  .archive-motion--wattson .archive-motion__echo,
+  .archive-motion--wraith .archive-motion__portrait,
+  .archive-motion--wraith .archive-motion__echo {
+    right: -49vw;
+    width: 154vw;
+  }
+.archive-motion--newcastle .archive-motion__portrait,
+  .archive-motion--newcastle .archive-motion__echo {
+    right: -55vw;
+    width: 166vw;
+  }
+.archive-motion--octane .archive-motion__portrait,
+  .archive-motion--octane .archive-motion__echo {
+    right: -45vw;
+    width: 148vw;
+  }
+.archive-motion--gibraltar .archive-motion__portrait,
+  .archive-motion--gibraltar .archive-motion__echo {
+    right: -57vw;
+    width: 170vw;
+  }
+.archive-motion--mad-maggie .archive-motion__portrait,
+  .archive-motion--mad-maggie .archive-motion__echo {
+    right: -44vw;
+    width: 146vw;
+  }
+.archive-motion--rampart .archive-motion__portrait,
+  .archive-motion--rampart .archive-motion__echo,
+  .archive-motion--valkyrie .archive-motion__portrait,
+  .archive-motion--valkyrie .archive-motion__echo {
+    right: -56vw;
+    width: 168vw;
+  }
+.archive-motion--axle .archive-motion__portrait,
+  .archive-motion--axle .archive-motion__echo {
+    top: -1%;
+    right: -45vw;
+    width: 165vw;
+    height: 104%;
+    -webkit-mask-image: radial-gradient(ellipse 63% 73% at 55% 43%, #000 43%, rgba(0, 0, 0, 0.94) 61%, transparent 88%);
+    mask-image: radial-gradient(ellipse 63% 73% at 55% 43%, #000 43%, rgba(0, 0, 0, 0.94) 61%, transparent 88%);
+  }
+  .archive-motion--axle .archive-motion__portrait img,
+  .archive-motion--axle .archive-motion__echo img {
+    object-position: 50% 13%;
+  }
+.archive-motion--revenant .archive-motion__portrait,
+  .archive-motion--revenant .archive-motion__echo {
+    right: -47vw;
+    width: 152vw;
+  }
+.archive-motion--ballistic .archive-motion__portrait,
+  .archive-motion--ballistic .archive-motion__echo,
+  .archive-motion--fuse .archive-motion__portrait,
+  .archive-motion--fuse .archive-motion__echo {
+    top: 8%;
+    width: 150svh;
+    height: 84%;
+  }
+.archive-motion--ballistic .archive-motion__portrait,
+  .archive-motion--ballistic .archive-motion__echo {
+    left: -125vw;
+  }
+.archive-motion--fuse .archive-motion__portrait,
+  .archive-motion--fuse .archive-motion__echo {
+    left: -42vw;
+  }
+.archive-motion__rings {
+    top: 22%;
+    right: -34vw;
+    width: 118vw;
+  }
+.archive-motion__reticle,
+  .archive-motion--ballistic .archive-motion__reticle {
+    top: 35%;
+    right: 14%;
+    width: 68px;
+  }
+.archive-motion__telemetry {
+    right: 20px;
+    bottom: 88px;
+    font-size: clamp(0.625rem, 2.7vw, 0.75rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {.legend-media__layer.is-active .archive-motion__backdrop,
+  .legend-media__layer.is-active .archive-motion__portrait,
+  .legend-media__layer.is-active .archive-motion__echo,
+  .legend-media__layer.is-active .archive-motion__rings,
+  .legend-media__layer.is-active .archive-motion__scan,
+  .legend-media__layer.is-active .archive-motion__particles,
+  .legend-media__layer.is-active .archive-motion__reticle,
+  .legend-media__layer.is-active .archive-motion__telemetry {
+    animation: none !important;
+  }
+.legend-media__layer.is-active .archive-motion__backdrop {
+    opacity: 0.58;
+    transform: scale(1.08);
+  }
+.legend-media__layer.is-active .archive-motion__portrait {
+    opacity: 1;
+    transform: none;
+  }
+.legend-media__layer.is-active .archive-motion__echo,
+  .legend-media__layer.is-active .archive-motion__scan {
+    display: none;
+  }
+.legend-media__layer.is-active .archive-motion__rings,
+  .legend-media__layer.is-active .archive-motion__particles,
+  .legend-media__layer.is-active .archive-motion__reticle,
+  .legend-media__layer.is-active .archive-motion__telemetry {
+    opacity: 0.64;
+    transform: none;
+  }
+}

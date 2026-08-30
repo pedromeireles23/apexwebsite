@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#120716"/>
+      <stop offset=".48" stop-color="#4a1252"/>
+      <stop offset="1" stop-color="#070408"/>
+    </linearGradient>
+    <radialGradient id="flare">
+      <stop stop-color="#e879f9" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#6b21a8" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="18"/></filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <circle cx="1130" cy="420" r="470" fill="url(#flare)"/>
+  <g fill="none" stroke="#f0abfc" opacity=".38">
+    <ellipse cx="1120" cy="510" rx="360" ry="205" stroke-width="4" transform="rotate(-24 1120 510)"/>
+    <ellipse cx="1120" cy="510" rx="430" ry="250" stroke-width="1" transform="rotate(-24 1120 510)"/>
+  </g>
+  <path d="M1110 184c70 0 122 55 122 132 0 52-24 87-55 108 99 48 166 159 178 372H843c17-199 79-310 175-366-30-22-51-58-51-110 0-80 61-136 143-136Z" fill="#09070b"/>
+  <path d="M996 462c-102 17-177 91-237 225M1220 452c114 17 185 85 235 220" fill="none" stroke="#f5d0fe" stroke-width="24" stroke-linecap="round" opacity=".55"/>
+  <path d="M1310 195 945 842" stroke="#d946ef" stroke-width="3" opacity=".6" filter="url(#glow)"/>
+  <g fill="#fff" opacity=".32" font-family="Arial, sans-serif">
+    <text x="1310" y="90" font-size="18" letter-spacing="8">SUBJECT 01</text>
+    <text x="1310" y="122" font-size="11" letter-spacing="4">TEMPORARY MEDIA</text>
+  </g>
+</svg>

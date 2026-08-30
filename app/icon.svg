@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .apex-mark { stroke: #111; }
+
+    @media (prefers-color-scheme: dark) {
+      .apex-mark { stroke: #f2eee8; }
+    }
+  </style>
+  <path
+    class="apex-mark"
+    d="M32 7 7 51l8 6 14-10h-8l11-20 11 20h-8l14 10 8-6L32 7Z"
+    fill="none"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

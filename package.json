@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "assets:verify": "node scripts/optimize-motion-assets.mjs --verify",
+    "assets:optimize": "node scripts/optimize-motion-assets.mjs --apply",
+    "assets:backup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/package-design-assets.ps1"
   },
   "dependencies": {
     "next": "16.0.3",

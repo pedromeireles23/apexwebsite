@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="1920" height="1080" viewBox="0 0 85.33 48" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="logo-mask">
+      <rect width="85.33" height="48" fill="white"/>
+      <polygon points="42.665 20.039 51.379 35.303 45.415 35.303 55.745 42.391 61.165 38.013 42.665 5.609 24.165 38.013 29.585 42.391 39.915 35.303 33.951 35.303 42.665 20.039" fill="black"/>
+    </mask>
+  </defs>
+  
+  <rect width="85.33" height="48" fill="black" mask="url(#logo-mask)"/>
+</svg>
