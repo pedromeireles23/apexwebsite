@@ -7,7 +7,7 @@ import "./archive-motion.css";
 const archiveMotionPosters = {
   axle: {
     backdrop: "/motion/axle-overclocked-keyart.webp",
-    portrait: "/motion/axle-heat-sync-transparent.png",
+    portrait: "/motion/axle-overclocked-transparent.png",
     primary: "236 72 153",
     secondary: "192 132 252",
     position: "50% 50%",
@@ -251,8 +251,10 @@ export type ArchiveMotionSlug = keyof typeof archiveMotionPosters;
 
 export default function ArchiveMotionPoster({
   slug,
+  isActive,
 }: {
   slug: ArchiveMotionSlug;
+  isActive: boolean;
 }) {
   const poster = archiveMotionPosters[slug];
 
@@ -271,7 +273,13 @@ export default function ArchiveMotionPoster({
       }
     >
       <div className="archive-motion__backdrop">
-        <Image src={poster.backdrop} alt="" fill sizes="100vw" />
+        <Image
+          src={poster.backdrop}
+          alt=""
+          fill
+          loading={isActive ? "eager" : "lazy"}
+          sizes="100vw"
+        />
       </div>
 
       <div className="archive-motion__wash" />
@@ -286,6 +294,7 @@ export default function ArchiveMotionPoster({
           src={poster.portrait}
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
         />
       </div>
@@ -295,6 +304,7 @@ export default function ArchiveMotionPoster({
           src={poster.portrait}
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
         />
       </div>

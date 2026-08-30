@@ -3,7 +3,7 @@
 import Image from "next/image";
 import "./late-special-motion.css";
 
-function BangaloreMotionPoster() {
+function BangaloreMotionPoster({ isActive }: { isActive: boolean }) {
   return (
     <div className="bangalore-motion" aria-hidden="true">
       <div className="bangalore-motion__backdrop">
@@ -11,6 +11,7 @@ function BangaloreMotionPoster() {
           src="/motion/bangalore-keyart.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="100vw"
         />
       </div>
@@ -23,6 +24,7 @@ function BangaloreMotionPoster() {
           src="/motion/bangalore-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(61vw, 1010px)"
         />
       </div>
@@ -32,6 +34,7 @@ function BangaloreMotionPoster() {
           src="/motion/bangalore-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(61vw, 1010px)"
         />
       </div>
@@ -56,7 +59,7 @@ function BangaloreMotionPoster() {
   );
 }
 
-function BloodhoundMotionPoster() {
+function BloodhoundMotionPoster({ isActive }: { isActive: boolean }) {
   return (
     <div className="bloodhound-motion" aria-hidden="true">
       <div className="bloodhound-motion__backdrop">
@@ -64,6 +67,7 @@ function BloodhoundMotionPoster() {
           src="/motion/bloodhound-keyart.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="100vw"
         />
       </div>
@@ -76,6 +80,7 @@ function BloodhoundMotionPoster() {
           src="/motion/bloodhound-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(63vw, 1040px)"
         />
       </div>
@@ -85,6 +90,7 @@ function BloodhoundMotionPoster() {
           src="/motion/bloodhound-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(63vw, 1040px)"
         />
       </div>
@@ -116,11 +122,13 @@ function BloodhoundMotionPoster() {
 
 export default function LateSpecialMotionPoster({
   name,
+  isActive,
 }: {
   name: "Bangalore" | "Bloodhound";
+  isActive: boolean;
 }) {
   return name === "Bangalore"
-    ? <BangaloreMotionPoster />
-    : <BloodhoundMotionPoster />;
+    ? <BangaloreMotionPoster isActive={isActive} />
+    : <BloodhoundMotionPoster isActive={isActive} />;
 }
 

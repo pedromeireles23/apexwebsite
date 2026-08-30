@@ -698,7 +698,7 @@
   }
 .archive-motion--ballistic .archive-motion__portrait,
   .archive-motion--ballistic .archive-motion__echo {
-    left: -125vw;
+    left: calc(-125vw + clamp(4rem, 20vw, 6rem));
   }
 .archive-motion--fuse .archive-motion__portrait,
   .archive-motion--fuse .archive-motion__echo {

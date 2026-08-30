@@ -28,7 +28,7 @@ const legends = [
     name: "Axle",
     role: "Combate",
     code: "03 / REDLINE",
-    image: "/motion/axle-heat-sync-transparent.png",
+    image: "/motion/axle-overclocked-transparent.png",
     classIcon: "/classes/skirmisher.svg",
     accent: "#ec4899",
   },
@@ -423,7 +423,7 @@ const scrollToShowcasePosition = (
   window.scrollTo({ top, behavior: "auto" });
 };
 
-function AlterMotionPoster() {
+function AlterMotionPoster({ isActive }: { isActive: boolean }) {
   return (
     <div className="alter-motion" aria-hidden="true">
       <div className="alter-motion__backdrop">
@@ -431,7 +431,7 @@ function AlterMotionPoster() {
           src="/motion/alter-keyart.jpg"
           alt=""
           fill
-          priority
+          loading={isActive ? "eager" : "lazy"}
           sizes="100vw"
         />
       </div>
@@ -445,7 +445,7 @@ function AlterMotionPoster() {
           src="/motion/alter-portrait.jpg"
           alt=""
           fill
-          priority
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(64vw, 1050px)"
         />
       </div>
@@ -455,6 +455,7 @@ function AlterMotionPoster() {
           src="/motion/alter-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(64vw, 1050px)"
         />
       </div>
@@ -464,6 +465,7 @@ function AlterMotionPoster() {
           src="/motion/alter-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(64vw, 1050px)"
         />
       </div>
@@ -483,7 +485,7 @@ function AlterMotionPoster() {
   );
 }
 
-function AshMotionPoster() {
+function AshMotionPoster({ isActive }: { isActive: boolean }) {
   return (
     <div className="ash-motion" aria-hidden="true">
       <div className="ash-motion__backdrop">
@@ -491,6 +493,7 @@ function AshMotionPoster() {
           src="/motion/ash-keyart.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="100vw"
         />
       </div>
@@ -503,6 +506,7 @@ function AshMotionPoster() {
           src="/motion/ash-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(68vw, 1120px)"
         />
       </div>
@@ -512,6 +516,7 @@ function AshMotionPoster() {
           src="/motion/ash-portrait.jpg"
           alt=""
           fill
+          loading={isActive ? "eager" : "lazy"}
           sizes="(max-width: 767px) 100vw, min(68vw, 1120px)"
         />
       </div>
@@ -533,18 +538,20 @@ function AshMotionPoster() {
 
 function LegendMotionPoster({
   name,
+  isActive,
 }: {
   name: (typeof legends)[number]["name"];
+  isActive: boolean;
 }) {
-  if (name === "Alter") return <AlterMotionPoster />;
-  if (name === "Ash") return <AshMotionPoster />;
+  if (name === "Alter") return <AlterMotionPoster isActive={isActive} />;
+  if (name === "Ash") return <AshMotionPoster isActive={isActive} />;
   if (name === "Bangalore" || name === "Bloodhound") {
-    return <DynamicLateSpecialMotionPoster name={name} />;
+    return <DynamicLateSpecialMotionPoster name={name} isActive={isActive} />;
   }
 
   const archiveSlug = name.toLowerCase().replaceAll(" ", "-") as ArchiveMotionSlug;
 
-  return <DynamicArchiveMotionPoster slug={archiveSlug} />;
+  return <DynamicArchiveMotionPoster slug={archiveSlug} isActive={isActive} />;
 }
 
 export default function LegendShowcase() {
@@ -1160,7 +1167,10 @@ export default function LegendShowcase() {
               }`}
               key={legend.name}
             >
-              <LegendMotionPoster name={legend.name} />
+              <LegendMotionPoster
+                name={legend.name}
+                isActive={index === activeIndex}
+              />
             </div>
             );
           })}
