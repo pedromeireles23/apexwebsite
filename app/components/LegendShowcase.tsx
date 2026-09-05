@@ -436,38 +436,46 @@ function AlterMotionPoster({ isActive }: { isActive: boolean }) {
         />
       </div>
 
-      <div className="alter-motion__void" />
       <div className="alter-motion__rift alter-motion__rift--one" />
       <div className="alter-motion__rift alter-motion__rift--two" />
 
       <div className="alter-motion__portrait">
-        <Image
-          src="/motion/alter-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(64vw, 1050px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/alter-portrait-v3.webp"
+            alt=""
+            fill
+            loading={isActive ? "eager" : "lazy"}
+            quality={90}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="alter-motion__echo alter-motion__echo--magenta">
-        <Image
-          src="/motion/alter-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(64vw, 1050px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/alter-portrait-v3.webp"
+            alt=""
+            fill
+            loading={isActive ? "eager" : "lazy"}
+            quality={90}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="alter-motion__echo alter-motion__echo--green">
-        <Image
-          src="/motion/alter-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(64vw, 1050px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/alter-portrait-v3.webp"
+            alt=""
+            fill
+            loading={isActive ? "eager" : "lazy"}
+            quality={90}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="alter-motion__shards" />
@@ -499,26 +507,31 @@ function AshMotionPoster({ isActive }: { isActive: boolean }) {
       </div>
 
       <div className="ash-motion__atmosphere" />
-      <div className="ash-motion__portal" />
 
       <div className="ash-motion__portrait">
-        <Image
-          src="/motion/ash-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(68vw, 1120px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/ash-portrait-v3.webp"
+            alt=""
+            fill
+            loading={isActive ? "eager" : "lazy"}
+            quality={90}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="ash-motion__echo" aria-hidden="true">
-        <Image
-          src="/motion/ash-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(68vw, 1120px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/ash-portrait-v3.webp"
+            alt=""
+            fill
+            loading={isActive ? "eager" : "lazy"}
+            quality={90}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="ash-motion__scan" />

@@ -32,6 +32,8 @@ yarn-error.log*
 
 # Local Markdown notes and agent instructions
 *.md
+!docs/legend-portrait-standard.md
+!docs/legend-size-normalization.md
 
 # Local environment files (keep a documented example if one is added)
 .env*

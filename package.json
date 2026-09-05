@@ -9,7 +9,9 @@
     "lint": "eslint",
     "assets:verify": "node scripts/optimize-motion-assets.mjs --verify",
     "assets:optimize": "node scripts/optimize-motion-assets.mjs --apply",
-    "assets:backup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/package-design-assets.ps1"
+    "assets:backup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/package-design-assets.ps1",
+    "portraits:normalize:round1": "node scripts/normalize-legend-portraits.mjs --round=1",
+    "portraits:verify:round1": "node scripts/normalize-legend-portraits.mjs --round=1 --verify"
   },
   "dependencies": {
     "next": "16.3.3",

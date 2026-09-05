@@ -20,23 +20,29 @@ function BangaloreMotionPoster({ isActive }: { isActive: boolean }) {
       <div className="bangalore-motion__smoke bangalore-motion__smoke--rear" />
 
       <div className="bangalore-motion__portrait">
-        <Image
-          src="/motion/bangalore-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(61vw, 1010px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/bangalore-portrait-v2.webp"
+            alt=""
+            fill
+            quality={90}
+            loading={isActive ? "eager" : "lazy"}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="bangalore-motion__echo">
-        <Image
-          src="/motion/bangalore-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(61vw, 1010px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/bangalore-portrait-v2.webp"
+            alt=""
+            fill
+            quality={90}
+            loading={isActive ? "eager" : "lazy"}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="bangalore-motion__smoke bangalore-motion__smoke--front" />
@@ -76,23 +82,29 @@ function BloodhoundMotionPoster({ isActive }: { isActive: boolean }) {
       <div className="bloodhound-motion__pulse" />
 
       <div className="bloodhound-motion__portrait">
-        <Image
-          src="/motion/bloodhound-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(63vw, 1040px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/bloodhound-portrait-v3.webp"
+            alt=""
+            fill
+            quality={90}
+            loading={isActive ? "eager" : "lazy"}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="bloodhound-motion__echo">
-        <Image
-          src="/motion/bloodhound-portrait.jpg"
-          alt=""
-          fill
-          loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, min(63vw, 1040px)"
-        />
+        <div className="legend-wraith-asset">
+          <Image
+            src="/motion/bloodhound-portrait-v3.webp"
+            alt=""
+            fill
+            quality={90}
+            loading={isActive ? "eager" : "lazy"}
+            sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          />
+        </div>
       </div>
 
       <div className="bloodhound-motion__eyes">

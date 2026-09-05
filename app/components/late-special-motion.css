@@ -72,29 +72,39 @@
 }
 .bangalore-motion__portrait,
 .bangalore-motion__echo {
+  --wraith-reference-scale: 1.14007;
+  --wraith-reference-x: 1.65%;
+  --wraith-reference-y: 10.61%;
   position: absolute;
-  top: -7%;
-  right: 0;
+  top: calc(var(--legend-header-height) + clamp(72px, 8svh, 104px));
+  right: -3%;
   z-index: 3;
-  width: min(61vw, 1010px);
-  height: 116%;
+  width: min(66vw, 1120px);
+  height: 100svh;
   opacity: 0;
   transform: translate3d(6%, 5%, 0) scale(1.08);
   transform-origin: 53% 35%;
-  mask-image: radial-gradient(ellipse 63% 77% at 53% 45%, #000 43%, rgba(0, 0, 0, 0.95) 65%, transparent 89%);
-  -webkit-mask-image: radial-gradient(ellipse 63% 77% at 53% 45%, #000 43%, rgba(0, 0, 0, 0.95) 65%, transparent 89%);
   will-change: opacity, transform;
 }
 .bangalore-motion__portrait img,
 .bangalore-motion__echo img {
-  object-position: 50% 14%;
-  filter: saturate(0.88) contrast(1.18) brightness(0.88) sepia(0.08);
+  object-fit: contain;
+  object-position: center bottom;
+  filter: saturate(0.9) contrast(1.12) brightness(0.88) sepia(0.05);
+}
+.bangalore-motion__portrait img {
+  filter:
+    saturate(0.9)
+    contrast(1.12)
+    brightness(0.88)
+    sepia(0.05)
+    drop-shadow(0 24px 34px rgba(0, 0, 0, 0.54));
 }
 .legend-media__layer--bangalore.is-active .bangalore-motion__portrait {
   animation: bangalore-portrait-enter 1.05s cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
 }
 .legend-media__layer--bangalore.is-active .bangalore-motion__portrait img {
-  animation: bangalore-portrait-drift 10s ease-in-out 1.15s infinite alternate;
+  animation: bangalore-portrait-drift 7.5s ease-in-out 1.15s infinite alternate;
 }
 .bangalore-motion__echo {
   z-index: 4;
@@ -325,29 +335,39 @@
 }
 .bloodhound-motion__portrait,
 .bloodhound-motion__echo {
+  --wraith-reference-scale: 1.03186;
+  --wraith-reference-x: -3.6%;
+  --wraith-reference-y: 1.49%;
   position: absolute;
-  top: -7%;
-  right: -1vw;
+  top: calc(var(--legend-header-height) + clamp(72px, 8svh, 104px));
+  right: -3%;
   z-index: 3;
-  width: min(63vw, 1040px);
-  height: 116%;
+  width: min(66vw, 1120px);
+  height: 100svh;
   opacity: 0;
   transform: translate3d(7%, 4%, 0) scale(1.09);
   transform-origin: 53% 34%;
-  mask-image: radial-gradient(ellipse 65% 78% at 54% 44%, #000 43%, rgba(0, 0, 0, 0.96) 65%, transparent 89%);
-  -webkit-mask-image: radial-gradient(ellipse 65% 78% at 54% 44%, #000 43%, rgba(0, 0, 0, 0.96) 65%, transparent 89%);
   will-change: opacity, transform;
 }
 .bloodhound-motion__portrait img,
 .bloodhound-motion__echo img {
-  object-position: 50% 14%;
-  filter: saturate(0.88) contrast(1.2) brightness(0.84) sepia(0.08);
+  object-fit: contain;
+  object-position: center bottom;
+  filter: saturate(0.9) contrast(1.14) brightness(0.86) sepia(0.06);
+}
+.bloodhound-motion__portrait img {
+  filter:
+    saturate(0.9)
+    contrast(1.14)
+    brightness(0.86)
+    sepia(0.06)
+    drop-shadow(0 24px 34px rgba(0, 0, 0, 0.58));
 }
 .legend-media__layer--bloodhound.is-active .bloodhound-motion__portrait {
   animation: bloodhound-portrait-enter 1.08s cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
 }
 .legend-media__layer--bloodhound.is-active .bloodhound-motion__portrait img {
-  animation: bloodhound-portrait-drift 10s ease-in-out 1.2s infinite alternate;
+  animation: bloodhound-portrait-drift 7.5s ease-in-out 1.15s infinite alternate;
 }
 .bloodhound-motion__echo {
   z-index: 4;
@@ -361,13 +381,13 @@
 }
 .bloodhound-motion__eyes {
   position: absolute;
-  top: 29%;
-  right: 22.5%;
+  top: 14.5%;
+  right: 29.7%;
   z-index: 5;
   display: flex;
-  gap: 19px;
+  gap: 35px;
   opacity: 0;
-  transform: scale(1.45);
+  transform: scale(1.15);
   pointer-events: none;
 }
 .bloodhound-motion__eyes span {
@@ -563,10 +583,10 @@
 }
 @keyframes bangalore-portrait-drift {
   from {
-    transform: scale(1.015) translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: scale(1.06) translate3d(-0.6%, -1%, 0);
+    transform: translate3d(-0.8%, -0.7%, 0) scale(1.018);
   }
 }
 @keyframes bangalore-echo {
@@ -742,10 +762,10 @@
 }
 @keyframes bloodhound-portrait-drift {
   from {
-    transform: scale(1.015) translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: scale(1.065) translate3d(-0.7%, -1.1%, 0);
+    transform: translate3d(-0.8%, -0.7%, 0) scale(1.018);
   }
 }
 @keyframes bloodhound-echo {
@@ -856,6 +876,20 @@
     transform: translateX(0);
   }
 }
+@media (min-width: 768px) and (max-width: 900px) and (max-aspect-ratio: 1 / 1) {
+  .bangalore-motion__portrait,
+  .bangalore-motion__echo {
+    --wraith-reference-x: 2.63%;
+    --wraith-reference-y: 7.88%;
+  }
+
+  .bloodhound-motion__portrait,
+  .bloodhound-motion__echo {
+    --wraith-reference-x: -5.74%;
+    --wraith-reference-y: 1.11%;
+  }
+}
+
 @media (max-width: 767px) {.bangalore-motion__backdrop {
     inset: -4%;
   }
@@ -865,18 +899,17 @@
 .bangalore-motion__smoke--rear {
     inset: 8% -24% -8% 12%;
   }
-.bangalore-motion__portrait,
+  .bangalore-motion__portrait,
   .bangalore-motion__echo {
-    top: -1%;
-    right: -52vw;
-    width: 168vw;
-    height: 106%;
-    mask-image: radial-gradient(ellipse 62% 75% at 53% 43%, #000 43%, rgba(0, 0, 0, 0.95) 64%, transparent 89%);
-    -webkit-mask-image: radial-gradient(ellipse 62% 75% at 53% 43%, #000 43%, rgba(0, 0, 0, 0.95) 64%, transparent 89%);
+    --wraith-reference-x: 2.5%;
+    top: calc(var(--legend-header-height) + clamp(72px, 8svh, 104px));
+    right: -49vw;
+    width: 154vw;
+    height: 100svh;
   }
-.bangalore-motion__portrait img,
+  .bangalore-motion__portrait img,
   .bangalore-motion__echo img {
-    object-position: 50% 12%;
+    object-position: center bottom;
   }
 .bangalore-motion__smoke--front {
     inset: 45% -28% -20% 15%;
@@ -910,23 +943,22 @@
     right: -48vw;
     width: 146vw;
   }
-.bloodhound-motion__portrait,
+  .bloodhound-motion__portrait,
   .bloodhound-motion__echo {
-    top: -1%;
-    right: -53vw;
-    width: 170vw;
-    height: 106%;
-    mask-image: radial-gradient(ellipse 63% 76% at 53% 43%, #000 43%, rgba(0, 0, 0, 0.96) 64%, transparent 89%);
-    -webkit-mask-image: radial-gradient(ellipse 63% 76% at 53% 43%, #000 43%, rgba(0, 0, 0, 0.96) 64%, transparent 89%);
+    --wraith-reference-x: -5.5%;
+    top: calc(var(--legend-header-height) + clamp(72px, 8svh, 104px));
+    right: -49vw;
+    width: 154vw;
+    height: 100svh;
   }
-.bloodhound-motion__portrait img,
+  .bloodhound-motion__portrait img,
   .bloodhound-motion__echo img {
-    object-position: 50% 12%;
+    object-position: center bottom;
   }
-.bloodhound-motion__eyes {
-    top: 28%;
-    right: 23%;
-    gap: 13px;
+  .bloodhound-motion__eyes {
+    top: 18.5%;
+    right: 56%;
+    gap: 35px;
   }
 .bloodhound-motion__eyes span {
     width: 15px;

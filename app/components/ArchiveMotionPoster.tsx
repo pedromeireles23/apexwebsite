@@ -7,7 +7,7 @@ import "./archive-motion.css";
 const archiveMotionPosters = {
   axle: {
     backdrop: "/motion/axle-overclocked-keyart.webp",
-    portrait: "/motion/axle-overclocked-transparent.png",
+    portrait: "/motion/axle-portrait-v2.webp",
     primary: "236 72 153",
     secondary: "192 132 252",
     position: "50% 50%",
@@ -17,7 +17,7 @@ const archiveMotionPosters = {
   },
   ballistic: {
     backdrop: "/motion/ballistic-cinematic.webp",
-    portrait: "/motion/ballistic-portrait.webp",
+    portrait: "/motion/ballistic-portrait-v2.webp",
     primary: "214 173 98",
     secondary: "80 196 220",
     position: "58% 50%",
@@ -27,7 +27,7 @@ const archiveMotionPosters = {
   },
   catalyst: {
     backdrop: "/motion/catalyst-cinematic.webp",
-    portrait: "/motion/catalyst-portrait.webp",
+    portrait: "/motion/catalyst-portrait-v2.webp",
     primary: "168 85 247",
     secondary: "34 211 238",
     position: "54% 50%",
@@ -37,7 +37,7 @@ const archiveMotionPosters = {
   },
   caustic: {
     backdrop: "/motion/caustic-art.webp",
-    portrait: "/motion/caustic-portrait.webp",
+    portrait: "/motion/caustic-portrait-v2.webp",
     primary: "183 213 42",
     secondary: "237 255 152",
     position: "53% 50%",
@@ -47,7 +47,7 @@ const archiveMotionPosters = {
   },
   conduit: {
     backdrop: "/motion/conduit-art.webp",
-    portrait: "/motion/conduit-portrait.webp",
+    portrait: "/motion/conduit-portrait-v2.webp",
     primary: "34 211 238",
     secondary: "250 204 21",
     position: "50% 50%",
@@ -57,7 +57,7 @@ const archiveMotionPosters = {
   },
   crypto: {
     backdrop: "/motion/crypto-art.webp",
-    portrait: "/motion/crypto-portrait.webp",
+    portrait: "/motion/crypto-portrait-v2.webp",
     primary: "87 227 137",
     secondary: "250 204 21",
     position: "51% 50%",
@@ -67,7 +67,7 @@ const archiveMotionPosters = {
   },
   fuse: {
     backdrop: "/motion/fuse-art.webp",
-    portrait: "/motion/fuse-portrait.webp",
+    portrait: "/motion/fuse-portrait-v3.webp",
     primary: "255 122 24",
     secondary: "255 214 102",
     position: "52% 50%",
@@ -77,7 +77,7 @@ const archiveMotionPosters = {
   },
   gibraltar: {
     backdrop: "/motion/gibraltar-art.webp",
-    portrait: "/motion/gibraltar-portrait-clean.webp",
+    portrait: "/motion/gibraltar-portrait-v2.webp",
     primary: "245 158 11",
     secondary: "56 189 248",
     position: "58% 42%",
@@ -87,7 +87,7 @@ const archiveMotionPosters = {
   },
   horizon: {
     backdrop: "/motion/horizon-art.webp",
-    portrait: "/motion/horizon-portrait-v2.webp",
+    portrait: "/motion/horizon-portrait-v3.webp",
     primary: "34 211 238",
     secondary: "248 113 113",
     position: "50% 45%",
@@ -127,7 +127,7 @@ const archiveMotionPosters = {
   },
   mirage: {
     backdrop: "/motion/mirage-art.webp",
-    portrait: "/motion/mirage-portrait-v2.webp",
+    portrait: "/motion/mirage-portrait-v3.webp",
     primary: "250 204 21",
     secondary: "74 222 128",
     position: "50% 46%",
@@ -167,7 +167,7 @@ const archiveMotionPosters = {
   },
   rampart: {
     backdrop: "/motion/rampart-art.webp",
-    portrait: "/motion/rampart-portrait.webp",
+    portrait: "/motion/rampart-portrait-v3.webp",
     primary: "59 130 246",
     secondary: "239 68 68",
     position: "50% 46%",
@@ -197,7 +197,7 @@ const archiveMotionPosters = {
   },
   sparrow: {
     backdrop: "/motion/sparrow-art.webp",
-    portrait: "/motion/sparrow-portrait.webp",
+    portrait: "/motion/sparrow-portrait-v2.webp",
     primary: "239 68 68",
     secondary: "56 189 248",
     position: "50% 46%",
@@ -249,6 +249,28 @@ const archiveMotionPosters = {
 
 export type ArchiveMotionSlug = keyof typeof archiveMotionPosters;
 
+const defaultPortraitSizes =
+  "(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)";
+const normalizedPortraitSizes =
+  "(max-width: 767px) calc(66.667svh - 46.667px), (min-width: 900px) and (max-height: 760px) calc(66.667svh - 58.667px), calc(66.667svh - 69.333px)";
+const standardHighFidelityPortraitSizes =
+  "(max-width: 767px) 154vw, (max-width: 1199px) min(82vw, 1080px), min(66vw, 1120px)";
+const highFidelityPortraitSizes: Partial<Record<ArchiveMotionSlug, string>> = {
+  axle: defaultPortraitSizes,
+  ballistic: standardHighFidelityPortraitSizes,
+  catalyst: standardHighFidelityPortraitSizes,
+  caustic: standardHighFidelityPortraitSizes,
+  conduit: standardHighFidelityPortraitSizes,
+  crypto: standardHighFidelityPortraitSizes,
+  fuse: standardHighFidelityPortraitSizes,
+  gibraltar: defaultPortraitSizes,
+  horizon: standardHighFidelityPortraitSizes,
+  mirage: standardHighFidelityPortraitSizes,
+  sparrow: standardHighFidelityPortraitSizes,
+  rampart: defaultPortraitSizes,
+};
+const normalizedPortraitSlugs = new Set<ArchiveMotionSlug>();
+
 export default function ArchiveMotionPoster({
   slug,
   isActive,
@@ -257,10 +279,18 @@ export default function ArchiveMotionPoster({
   isActive: boolean;
 }) {
   const poster = archiveMotionPosters[slug];
+  const usesNormalizedPortrait = normalizedPortraitSlugs.has(slug);
+  const portraitSizes = usesNormalizedPortrait
+    ? normalizedPortraitSizes
+    : highFidelityPortraitSizes[slug] ?? defaultPortraitSizes;
+  const usesHighFidelityPortrait = usesNormalizedPortrait
+    || Boolean(highFidelityPortraitSizes[slug]);
 
   return (
     <div
-      className={`archive-motion archive-motion--${slug}`}
+      className={`archive-motion archive-motion--${slug}${
+        usesNormalizedPortrait ? " archive-motion--normalized" : ""
+      }`}
       aria-hidden="true"
       style={
         {
@@ -289,23 +319,33 @@ export default function ArchiveMotionPoster({
         <span />
       </div>
 
-      <div className="archive-motion__echo">
+      <div
+        className={`archive-motion__echo${
+          usesNormalizedPortrait ? " legend-portrait-frame" : ""
+        }`}
+      >
         <Image
           src={poster.portrait}
           alt=""
           fill
           loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          quality={usesHighFidelityPortrait ? 90 : undefined}
+          sizes={portraitSizes}
         />
       </div>
 
-      <div className="archive-motion__portrait">
+      <div
+        className={`archive-motion__portrait${
+          usesNormalizedPortrait ? " legend-portrait-frame" : ""
+        }`}
+      >
         <Image
           src={poster.portrait}
           alt=""
           fill
           loading={isActive ? "eager" : "lazy"}
-          sizes="(max-width: 767px) 100vw, (max-width: 1199px) min(82vw, 1080px), min(73vw, 1200px)"
+          quality={usesHighFidelityPortrait ? 90 : undefined}
+          sizes={portraitSizes}
         />
       </div>
 
