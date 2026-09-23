@@ -4,7 +4,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import type { CSSProperties } from "react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ArchiveMotionSlug } from "./ArchiveMotionPoster";
 
 const legends = [
@@ -234,6 +234,17 @@ const legends = [
   },
 ] as const;
 
+const legendClasses = [
+  { id: "all", label: "Todas", icon: null },
+  { id: "assault", label: "Assalto", icon: "/classes/assault.svg" },
+  { id: "skirmisher", label: "Combate", icon: "/classes/skirmisher.svg" },
+  { id: "recon", label: "Batedor", icon: "/classes/recon.svg" },
+  { id: "support", label: "Suporte", icon: "/classes/support.svg" },
+  { id: "controller", label: "Controle", icon: "/classes/controller.svg" },
+] as const;
+
+type LegendClassId = (typeof legendClasses)[number]["id"];
+
 const detailPaths: Partial<Record<(typeof legends)[number]["name"], string>> = {
   Alter: "/lendas/alter",
   Ash: "/lendas/ash",
@@ -392,9 +403,12 @@ const getLegendScrollPosition = (
   items: Array<HTMLElement | null>,
   targetIndex: number
 ) => {
-  const firstItem = items[0];
+  const visibleItems = items.filter(
+    (item): item is HTMLElement => item !== null
+  );
+  const firstItem = visibleItems[0];
   const targetItem = items[targetIndex];
-  const lastItem = items[items.length - 1];
+  const lastItem = visibleItems[visibleItems.length - 1];
 
   if (!firstItem || !targetItem || !lastItem) return null;
 
@@ -583,6 +597,7 @@ export default function LegendShowcase() {
     activeDetailIndex ?? 0
   );
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [activeClass, setActiveClass] = useState<LegendClassId>("all");
   const [archivePhase, setArchivePhase] = useState<ArchivePhase>(
     isLegendDetail ? "detail" : "index"
   );
@@ -596,6 +611,19 @@ export default function LegendShowcase() {
   const hasMountedRef = useRef(false);
   const lastDetailIndexRef = useRef(activeDetailIndex ?? 0);
   const wasLegendDetailRef = useRef(isLegendDetail);
+  const filteredLegendIndices = useMemo(() => {
+    const selectedClass = legendClasses.find(
+      (legendClass) => legendClass.id === activeClass
+    );
+
+    return legends
+      .map((legend, index) => ({ legend, index }))
+      .filter(
+        ({ legend }) =>
+          !selectedClass?.icon || legend.classIcon === selectedClass.icon
+      )
+      .map(({ index }) => index);
+  }, [activeClass]);
 
   useEffect(() => {
     scrollIndexRef.current = scrollIndex;
@@ -710,7 +738,7 @@ export default function LegendShowcase() {
     const getItemRects = (includeAll = false) => {
       const rects = Array<DOMRect | null>(legends.length).fill(null);
       const indices = includeAll
-        ? itemRefs.current.map((_, index) => index)
+        ? filteredLegendIndices
         : Array.from(
             new Set([
               ...visibleItemIndices,
@@ -718,7 +746,7 @@ export default function LegendShowcase() {
               scrollIndexRef.current,
               scrollIndexRef.current + 1,
             ])
-          ).filter((index) => index >= 0 && index < legends.length);
+          ).filter((index) => filteredLegendIndices.includes(index));
 
       indices.forEach((index) => {
         rects[index] = itemRefs.current[index]?.getBoundingClientRect() ?? null;
@@ -799,16 +827,19 @@ export default function LegendShowcase() {
           );
         });
 
-        const firstItem = itemRefs.current[0];
-        const lastItem = itemRefs.current[legends.length - 1];
+        const firstVisibleIndex = filteredLegendIndices[0];
+        const lastVisibleIndex =
+          filteredLegendIndices[filteredLegendIndices.length - 1];
+        const firstItem = itemRefs.current[firstVisibleIndex];
+        const lastItem = itemRefs.current[lastVisibleIndex];
 
         if (!firstItem || !lastItem) return;
 
         const itemCenters = itemRefs.current.map((item) =>
           item ? getItemCenterWithinShowcase(item, showcase) : null
         );
-        const firstCenter = itemCenters[0];
-        const lastCenter = itemCenters[itemCenters.length - 1];
+        const firstCenter = itemCenters[firstVisibleIndex];
+        const lastCenter = itemCenters[lastVisibleIndex];
 
         if (firstCenter === null || lastCenter === null) return;
 
@@ -938,10 +969,15 @@ export default function LegendShowcase() {
 
       if (!isInsideShowcaseScroll) return;
 
-      const targetIndex = Math.min(
-        legends.length - 1,
-        Math.max(0, scrollIndexRef.current + direction)
+      const currentPosition = Math.max(
+        0,
+        filteredLegendIndices.indexOf(scrollIndexRef.current)
       );
+      const targetPosition = Math.min(
+        filteredLegendIndices.length - 1,
+        Math.max(0, currentPosition + direction)
+      );
+      const targetIndex = filteredLegendIndices[targetPosition];
       const targetScroll = getLegendScrollPosition(
         showcase,
         scrollSurface,
@@ -995,7 +1031,46 @@ export default function LegendShowcase() {
       scrollSurface?.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, [isLegendDetail]);
+  }, [filteredLegendIndices, isLegendDetail]);
+
+  const selectLegendClass = (classId: LegendClassId) => {
+    if (isLegendDetail || classId === activeClass) return;
+
+    const selectedClass = legendClasses.find(
+      (legendClass) => legendClass.id === classId
+    );
+    const nextIndex = legends.findIndex(
+      (legend) => !selectedClass?.icon || legend.classIcon === selectedClass.icon
+    );
+
+    if (nextIndex < 0) return;
+
+    itemRefs.current = [];
+    scrollIndexRef.current = nextIndex;
+    setScrollIndex(nextIndex);
+    setHoverIndex(null);
+    setActiveClass(classId);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const showcase = showcaseRef.current;
+        const scrollSurface = scrollSurfaceRef.current;
+
+        if (!showcase) return;
+
+        const nextScroll = getLegendScrollPosition(
+          showcase,
+          scrollSurface,
+          itemRefs.current,
+          nextIndex
+        );
+
+        if (nextScroll !== null) {
+          scrollToShowcasePosition(scrollSurface, nextScroll);
+        }
+      });
+    });
+  };
 
   const openLegendDetail = (index: number, path: string) => {
     if (isLegendDetail || archivePhase !== "index") return;
@@ -1014,9 +1089,11 @@ export default function LegendShowcase() {
   const closeLegendDetail = () => {
     if (!isLegendDetail || archivePhase === "detail-exit") return;
 
-    lastDetailIndexRef.current = 0;
-    scrollIndexRef.current = 0;
-    setScrollIndex(0);
+    const firstFilteredIndex = filteredLegendIndices[0];
+
+    lastDetailIndexRef.current = firstFilteredIndex;
+    scrollIndexRef.current = firstFilteredIndex;
+    setScrollIndex(firstFilteredIndex);
     setHoverIndex(null);
     setArchivePhase("detail-exit");
 
@@ -1089,15 +1166,20 @@ export default function LegendShowcase() {
       onBlur={() => setHoverIndex(null)}
       onKeyDown={(event) => {
         let targetIndex: number | null = null;
+        const currentPosition = filteredLegendIndices.indexOf(index);
 
         if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-          targetIndex = Math.min(legends.length - 1, index + 1);
+          targetIndex =
+            filteredLegendIndices[
+              Math.min(filteredLegendIndices.length - 1, currentPosition + 1)
+            ];
         } else if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
-          targetIndex = Math.max(0, index - 1);
+          targetIndex = filteredLegendIndices[Math.max(0, currentPosition - 1)];
         } else if (event.key === "Home") {
-          targetIndex = 0;
+          targetIndex = filteredLegendIndices[0];
         } else if (event.key === "End") {
-          targetIndex = legends.length - 1;
+          targetIndex =
+            filteredLegendIndices[filteredLegendIndices.length - 1];
         }
 
         if (targetIndex === null || targetIndex === index) return;
@@ -1137,9 +1219,15 @@ export default function LegendShowcase() {
     </button>
   );
 
-  const mountedPosterIndices = [activeIndex - 1, activeIndex, activeIndex + 1]
-    .filter((index) => index >= 0 && index < legends.length)
-    .filter((index, position, indices) => indices.indexOf(index) === position);
+  const activeFilteredPosition = filteredLegendIndices.indexOf(activeIndex);
+  const mountedPosterIndices = [
+    filteredLegendIndices[activeFilteredPosition - 1],
+    activeIndex,
+    filteredLegendIndices[activeFilteredPosition + 1],
+  ].filter(
+    (index): index is number =>
+      typeof index === "number" && index >= 0 && index < legends.length
+  );
 
   return (
     <section
@@ -1166,6 +1254,51 @@ export default function LegendShowcase() {
         <div className="legend-header__label">
           <span>Arquivo de Lendas</span>
         </div>
+        <nav
+          className="legend-class-filter"
+          aria-label="Filtrar lendas por classe"
+          aria-hidden={isLegendDetail}
+          inert={isLegendDetail ? true : undefined}
+        >
+          {legendClasses.map((legendClass) => (
+            <button
+              className={[
+                "legend-class-filter__button",
+                legendClass.id === activeClass ? "is-active" : "",
+              ].join(" ")}
+              key={legendClass.id}
+              type="button"
+              aria-label={
+                "Mostrar " + legendClass.label.toLocaleLowerCase("pt-BR")
+              }
+              aria-pressed={legendClass.id === activeClass}
+              title={legendClass.label}
+              onClick={() => selectLegendClass(legendClass.id)}
+            >
+              {legendClass.icon ? (
+                <span
+                  className="legend-class-icon"
+                  aria-hidden="true"
+                  style={
+                    {
+                      "--class-icon": "url(" + legendClass.icon + ")",
+                    } as CSSProperties
+                  }
+                />
+              ) : (
+                <span className="legend-class-filter__all-mark" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </span>
+              )}
+              <span className="legend-class-filter__tooltip">
+                {legendClass.label}
+              </span>
+            </button>
+          ))}
+        </nav>
       </header>
 
       <div className="legend-stage" aria-hidden="true">
@@ -1209,9 +1342,9 @@ export default function LegendShowcase() {
         </div>
 
         <div className="legend-counter">
-          <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+          <span>{String(activeFilteredPosition + 1).padStart(2, "0")}</span>
           <span className="legend-counter__line" />
-          <span>{String(legends.length).padStart(2, "0")}</span>
+          <span>{String(filteredLegendIndices.length).padStart(2, "0")}</span>
         </div>
       </div>
 
@@ -1225,7 +1358,9 @@ export default function LegendShowcase() {
           <p className="legend-eyebrow">Selecione sua Lenda</p>
 
           <nav className="legend-list" aria-label="Seleção de Lendas">
-            {legends.map((legend, index) => renderLegendItem(legend, index))}
+            {filteredLegendIndices.map((index) =>
+              renderLegendItem(legends[index], index)
+            )}
           </nav>
         </div>
       </div>
